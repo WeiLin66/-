@@ -1,5 +1,5 @@
 /**
- * 自定義類
+ * 自定義Elements類
  */
 public class Elements {
     private String id;
@@ -27,10 +27,9 @@ public class Elements {
     }
 
     /**
-     * @param obj
-     * 傳入比較對象
-     * @return
-     * 若兩對象屬性相同則返回true，否則返回false。屬性id比較無關大小寫
+     * 重寫的equals方法，用於比對成員屬性是否相同
+     * @param obj 傳入比較對象
+     * @return 若兩對象屬性相同則返回true，否則返回false。屬性id比較無關大小寫
      */
     @Override
     public boolean equals(Object obj) {
@@ -53,6 +52,7 @@ public class Elements {
     }
 
     /**
+     * 重寫的toString方法，用於打印類資訊
      * @return Elements類資訊
      */
     @Override
