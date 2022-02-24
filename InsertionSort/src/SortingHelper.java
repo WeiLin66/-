@@ -29,12 +29,22 @@ public class SortingHelper {
     public static <T extends Comparable<T>> void sortTest(String name, T[] arr) {
         long startTime = System.nanoTime();
 
-        if (name.equals("Insertion Sort1")) {
-            InsertionSort.insertionSort(arr);
-        } else if(name.equals("Insertion Sort2")){
-            InsertionSort.insertionSort2(arr);
-        }else{
-            System.out.println("No such Sort");
+        switch (name) {
+            case "Insertion Sort":
+                InsertionSort.insertionSort2(arr);
+                break;
+            case "Reverse Insertion Sort":
+                InsertionSort.reverseInsertionSort(arr);
+                break;
+            case "Selection Sort":
+                SelectionSort.sort(arr);
+                break;
+            case "Reverse Selection Sort":
+                SelectionSort.reverseSort(arr);
+                break;
+            default:
+                System.out.println("No Such Sort...");
+                break;
         }
 
         if (!isSort(arr)) {
