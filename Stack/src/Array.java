@@ -15,22 +15,37 @@ public class Array<E> {
         this(10);
     }
 
+    /**
+     * @return
+     */
     public E[] getData() {
         return data;
     }
 
+    /**
+     * @param data
+     */
     public void setData(E[] data) {
         this.data = data;
     }
 
+    /**
+     * @return
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * @param size
+     */
     public void setSize(int size) {
         this.size = size;
     }
 
+    /**
+     * @return
+     */
     public int getCapacity() {
         return data.length;
     }
@@ -62,6 +77,20 @@ public class Array<E> {
             throw new NumberFormatException("Illegal type!");
         }
         return getData;
+    }
+
+    /**
+     * @return
+     */
+    public E getFirst() {
+        return get(0);
+    }
+
+    /**
+     * @return
+     */
+    public E getLast() {
+        return get(getSize() - 1);
     }
 
     /**
