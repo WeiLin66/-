@@ -15,36 +15,26 @@ public class Array<E> {
         this(10);
     }
 
-    /**
-     * @return
-     */
     public E[] getData() {
         return data;
     }
 
-    /**
-     * @param data
-     */
     public void setData(E[] data) {
         this.data = data;
     }
 
-    /**
-     * @return
-     */
     public int getSize() {
         return size;
     }
 
-    /**
-     * @param size
-     */
     public void setSize(int size) {
         this.size = size;
     }
 
     /**
-     * @return
+     * 取得陣列開闢空間總長
+     *
+     * @return 陣列總長度
      */
     public int getCapacity() {
         return data.length;
@@ -80,14 +70,18 @@ public class Array<E> {
     }
 
     /**
-     * @return
+     * 獲取陣列頭元素
+     *
+     * @return 返回指定頭元素
      */
     public E getFirst() {
         return get(0);
     }
 
     /**
-     * @return
+     * 獲取陣列尾元素
+     *
+     * @return 返回指定尾元素
      */
     public E getLast() {
         return get(getSize() - 1);

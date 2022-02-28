@@ -4,17 +4,18 @@
 public class ArrayStack<E> implements Stack<E> {
     private Array<E> array;
 
-    public ArrayStack(int capacity){
+    public ArrayStack(int capacity) {
         array = new Array<>(capacity);
     }
 
-    public ArrayStack(){
+    public ArrayStack() {
         this(10);
     }
 
     /**
+     * 將一個元素入棧
      *
-     * @param value
+     * @param value 入棧元素
      */
     @Override
     public void push(E value) {
@@ -22,8 +23,9 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
+     * 將一個元素出棧
      *
-     * @return
+     * @return 棧頂元素
      */
     @Override
     public E pop() {
@@ -31,8 +33,9 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
+     * 判斷棧是否為空
      *
-     * @return
+     * @return 若為空返回true，反之則返回false
      */
     @Override
     public boolean isEmpty() {
@@ -40,8 +43,9 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
+     * 查看棧頂元素
      *
-     * @return
+     * @return 返回棧頂元素
      */
     @Override
     public E peek() {
@@ -49,8 +53,9 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
+     * 獲取棧的長度
      *
-     * @return
+     * @return 棧的長度
      */
     @Override
     public int getSize() {
@@ -58,8 +63,9 @@ public class ArrayStack<E> implements Stack<E> {
     }
 
     /**
+     * 重寫toString()方法
      *
-     * @return
+     * @return 返回ArrayStack字串信息
      */
     @Override
     public String toString() {
