@@ -13,8 +13,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 元素入對操作
      *
-     * @param value
+     * @param value 指定元素
      */
     @Override
     public void enqueue(E value) {
@@ -22,8 +23,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 元素出隊操作
      *
-     * @return
+     * @return 刪除並返回隊首元素
      */
     @Override
     public E dequeue() {
@@ -31,8 +33,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 獲取隊首元素
      *
-     * @return
+     * @return 隊首元素
      */
     @Override
     public E getFront() {
@@ -40,8 +43,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 獲取當前隊列元素長度
      *
-     * @return
+     * @return 當前隊列元素個數
      */
     @Override
     public int getSize() {
@@ -49,16 +53,18 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 返回當前類中Array陣列總長
      *
-     * @return
+     * @return Array陣列總長度
      */
-    public int getCapacity(){
+    public int getCapacity() {
         return array.getCapacity();
     }
 
     /**
+     * 判斷隊列是否為空
      *
-     * @return
+     * @return 若為空則返回true，否則返回false
      */
     @Override
     public boolean isEmpty() {
@@ -66,8 +72,9 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
+     * 重寫toString()方法
      *
-     * @return
+     * @return 返回ArrayQueue字串信息
      */
     @Override
     public String toString() {

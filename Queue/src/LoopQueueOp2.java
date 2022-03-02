@@ -1,8 +1,7 @@
 /**
- *
+ * 循環隊列實現類優化
+ * 優化目標: 不使用屬性size
  */
-
-import java.util.Arrays;
 
 public class LoopQueueOp2<E> implements Queue<E> {
     private E[] data;

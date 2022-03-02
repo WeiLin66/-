@@ -7,9 +7,11 @@ import java.util.Random;
 public class ArrayTest {
 
     /**
-     * @param q
-     * @param opCount
-     * @return
+     * 大筆資料的隊列時間性能測試
+     *
+     * @param q       隊列類型對象
+     * @param opCount 測試資料總量
+     * @return 執行平均時間
      */
     public static double queueTest(Queue<Integer> q, int opCount) {
         long startTime = System.nanoTime();
@@ -25,10 +27,11 @@ public class ArrayTest {
     }
 
     /**
+     * 將queueTest方法執行5次，並取其平均時間
      *
-     * @param q
-     * @param opCount
-     * @return
+     * @param q       隊列類型對象
+     * @param opCount 測試資料總量
+     * @return 執行5次平均時間
      */
     public static double averageQueueTest(Queue<Integer> q, int opCount) {
         double totalTime = 0;
@@ -39,7 +42,11 @@ public class ArrayTest {
     }
 
     /**
-     * @param q
+     * 一般的入隊與出隊測試方法，兩個操作分進行times/2次，因此最後
+     * 隊列元素會被清空。主要觀察過程中的隊列元素變化
+     *
+     * @param q     隊列類型對象
+     * @param times 入隊與出隊總執行次數
      */
     public static void regularTest(Queue<Integer> q, int times) {
         for (int i = 0; i < times / 2; i++) {

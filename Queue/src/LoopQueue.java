@@ -1,8 +1,6 @@
 /**
- *
+ * 循環隊列實現類
  */
-
-import java.util.Arrays;
 
 public class LoopQueue<E> implements Queue<E> {
     private E[] data;
@@ -20,8 +18,9 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 元素入對操作
      *
-     * @param value
+     * @param value 指定元素
      */
     @Override
     public void enqueue(E value) {
@@ -34,8 +33,9 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 元素出隊操作
      *
-     * @return
+     * @return 刪除並返回隊首元素
      */
     @Override
     public E dequeue() {
@@ -53,8 +53,9 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 獲取隊首元素
      *
-     * @return
+     * @return 隊首元素
      */
     @Override
     public E getFront() {
@@ -65,8 +66,9 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 獲取當前隊列元素長度
      *
-     * @return
+     * @return 當前隊列元素個數
      */
     @Override
     public int getSize() {
@@ -74,16 +76,18 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 返回當前類中Array陣列總長
      *
-     * @return
+     * @return Array陣列總長度
      */
     public int getCapacity() {
         return data.length - 1;
     }
 
     /**
+     * 判斷隊列是否為空
      *
-     * @return
+     * @return 若為空則返回true，否則返回false
      */
     @Override
     public boolean isEmpty() {
@@ -91,8 +95,10 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 對原本的data進行擴大以及縮小操作，因為在元素添加過程中，可能會產生容量不足或浪費，因此該方法會將data重新定義成
+     * 長度為capacity的陣列
      *
-     * @param capacity
+     * @param capacity 指定陣列長度
      */
     private void resize(int capacity) {
         E[] newDate = (E[]) new Object[capacity + 1];
@@ -105,8 +111,9 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
+     * 重寫toString()方法
      *
-     * @return
+     * @return 返回ArrayQueue字串信息
      */
     @Override
     public String toString() {
