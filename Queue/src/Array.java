@@ -1,267 +1,339 @@
-/**
- * 自定義動態字串類Array
- */
-public class Array<E> {
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
+#include <malloc.h>
 
-    private E[] data;
-    private int size;
+typedef enum{
+    String=0,
+    Integer,
+    Float,
+    Boolean
+}jsonType;
 
-    public Array(int capacity) {
-        data = (E[]) new Object[capacity]; // 強制轉換成範型陣列，因為語法無法直接 new E[n]
-        size = 0;
-    }
+int StringIndexOf(char *str1, char *str2){
+    if(strlen(str1) < strlen(str2))
+        return -1 ;
 
-    public Array() {
-        this(10);
-    }
-
-    public E[] getData() {
-        return data;
-    }
-
-    public void setData(E[] data) {
-        this.data = data;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    /**
-     * 取得陣列開闢空間總長
-     *
-     * @return 陣列總長度
-     */
-    public int getCapacity() {
-        return data.length;
-    }
-
-    /**
-     * 判斷陣列是否為空
-     *
-     * @return 若為空返回true，反之返回false
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * 獲取指定index的元素，若輸入參數不合理則拋出異常
-     *
-     * @param index 陣列index
-     * @return 返回指定元素
-     */
-    public E get(int index) {
-        if (index < 0 || index >= getSize()) {
-            throw new IllegalArgumentException("Illegal argument!");
-        }
-
-        E getData;
-        try {
-            getData = data[index];
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Illegal type!");
-        }
-        return getData;
-    }
-
-    /**
-     * 獲取陣列頭元素
-     *
-     * @return 返回指定頭元素
-     */
-    public E getFirst() {
-        return get(0);
-    }
-
-    /**
-     * 獲取陣列尾元素
-     *
-     * @return 返回指定尾元素
-     */
-    public E getLast() {
-        return get(getSize() - 1);
-    }
-
-    /**
-     * 設定指定index元素，若輸入參數不合理則拋出異常
-     *
-     * @param index 陣列index
-     * @param value 指定元素值
-     */
-    public void set(int index, E value) {
-        if (index < 0 || index >= getSize()) {
-            throw new IllegalArgumentException("Illegal argument!");
-        }
-
-        try {
-            data[index] = value;
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Illegal type!");
-        }
-    }
-
-    /**
-     * 查看陣列是否包含元素value
-     *
-     * @param value 欲查詢元素
-     * @return 若包含value則返回true，反之返回false
-     */
-    public boolean contains(E value) {
-        for (E i : data) {
-            if (i.equals(value)) {
-                return true;
+    for (int i = 0; i < strlen(str1) - strlen(str2) + 1; i++){
+        for (int index = 0; index < strlen(str2); index++){
+            if(str1[index + i] != str2[index]){
+                break;
             }
-        }
-        return false;
-    }
 
-    /**
-     * 查詢value所在index
-     *
-     * @param value 欲查詢元素
-     * @return 返回value的index
-     */
-    public int find(E value) {
-        for (int i = 0; i < getSize(); i++) {
-            if (get(i).equals(value)) {
+            if (index == strlen(str2) - 1){
                 return i;
             }
         }
-        return -1;
     }
 
-    /**
-     * 移除指定index元素
-     *
-     * @param index 指定元素index
-     * @return 返回被移除的元素
-     */
-    public E remove(int index) {
-        if (index < 0 || index >= getSize()) {
-            throw new IllegalArgumentException("Illegal argument!");
+    return -1;
+}
+
+char* JSONAnaylsis(char* jsonstr, char* tag, int arr_index, int len){
+    int index = StringIndexOf(jsonstr, tag);
+	
+    if (index != -1){
+        char* value;
+
+        if (len == 0){
+            value = calloc(32, sizeof(char));
+        }else{
+            value = calloc(len, sizeof(char));
+        }
+        
+        if (value == NULL){
+            return NULL;
         }
 
-        /* 緩處理機制，防止複雜度震盪 */
-        if (getSize() == getData().length / 4 && data.length / 2 != 0) {
-            resize(data.length / 2);
+        int objectCount = 0;
+        int arr_count = 0;
+        uint8_t objectType = 0;
+
+        if (jsonstr[index - 1] != '\"' ||
+            jsonstr[index + strlen(tag)] != '\"' ||
+            jsonstr[index + strlen(tag) + 1] != ':'){
+            free(value);
+            value = NULL;
+            return NULL;
+        }
+				
+        index += strlen(tag);
+        index += 2;
+
+        switch (jsonstr[index]){
+            case '\"':                          
+				objectType = 1; 
+				index++; 
+			break;
+			
+            case '{':                           
+    			objectType = 2; 
+    			index++; 
+			break; 
+			
+            case '[':
+                if (jsonstr[index + 1] == '{'){  
+					objectType = 3;
+                }else if (jsonstr[index + 1] == '\"'){
+					objectType = 4;
+                }else{                            
+    				objectType = 5;
+                }
+				index++;
+            break;
+            
+            default: 
+				objectType = 0; 
+			break;
         }
 
-        E removeData = data[index];
+        for (int i = index; i < strlen(jsonstr); i++){
+            switch (objectType){
+                case 0:
+                    if (jsonstr[i] == ',' || jsonstr[i] == '}'){
+						*(value+strlen(value)) = '\0';
+						value = (char*)realloc(value, strlen(value)+1);
+                        return value;
+                    }else{
+						strncat(value, &jsonstr[i], 1);
+					}
+                break;
 
-        for (int i = index + 1; i < getSize(); i++) {
-            data[i - 1] = data[i];
-        }
-        setSize(getSize() - 1);
-        data[getSize()] = null; // loitering Object
-        return removeData;
-    }
+                case 1:
+                    if (jsonstr[i] == '\"'){
+						value[strlen(value)+1] = '\0';
+						value = realloc(value, strlen(value) + 1);																
+                        return value;
+                    }else{
+						strncat(value, &jsonstr[i], 1);
+					}
+                break;
 
-    /**
-     * 移除陣列第一個元素
-     *
-     * @return 返回被移除的元素值
-     */
-    public E removeFirst() {
-        return remove(0);
-    }
+                case 2:
+                    if (jsonstr[i] == '}'){
+                        if (objectCount == 0){
+                            value = realloc(value, strlen(value) + 1);
+                            return value;
+                        }else{
+                            objectCount--;
+                        }
+                    }
 
-    /**
-     * 移除陣列的最後一個元素
-     *
-     * @return 返回被移除的元素值
-     */
-    public E removeLast() {
-        return remove(getSize() - 1);
-    }
+                    strncat(value, &jsonstr[i], 1);
 
-    /**
-     * 移除指定的元素value
-     *
-     * @param value 欲移除元素值
-     */
-    public boolean removeElement(E value) {
-        if (!contains(value)) {
-            return false;
-        }
+                    if (jsonstr[i] == '{'){
+                        objectCount++;
+                    }
+                break;
 
-        remove(find(value));
-        return true;
-    }
+                case 3: // array-object
+                    if (jsonstr[i] == ','){
+                        if (objectCount == 0){
+                            if (arr_count < arr_index){
+                                arr_count++;
+                                break;
+                            }else{
+                                value = realloc(value, strlen(value) + 1);
+                                return value;
+                            }
+                        }
+                    }
 
+                    if (jsonstr[i] == ']'){
+                        if (objectCount == 0){
+                            value = realloc(value, strlen(value) + 1);
+                            return value;
+                        }else{
+                            objectCount--;
+                        }
+                    }
+                    
+                    if (arr_count == arr_index){
+                        strncat(value, &jsonstr[i], 1);
+                    }
+                    if (jsonstr[i] == '{' || jsonstr[i] == '['){
+                        objectCount++;
+                    }else if (jsonstr[i] == '}'){
+                        objectCount--;
+                    }
+                break;
 
-    /**
-     * 添加指定元素到陣列尾部
-     *
-     * @param value 欲添加元素
-     */
-    public void addLast(E value) {
-        add(size, value);
-    }
+                 case 4:
+                    if (jsonstr[i] == ','){
+                        if (objectCount == 0){
+                            if (arr_count < arr_index){
+                                arr_count++;
+                                break;
+                            }else{
+                                value = realloc(value, strlen(value) + 1);
+                                return value;
+                            }
+                        }
+                    }
 
-    /**
-     * 添加指定元素到陣列頭
-     *
-     * @param value 欲添加元素
-     */
-    public void addFirst(E value) {
-        add(0, value);
-    }
+                    if (jsonstr[i] == ']'){
+                        if (objectCount == 0){
+                            value = realloc(value, strlen(value) + 1);
+                            return value;
+                        }else{
+                            objectCount--;
+                        }
+                    }
 
-    /**
-     * 將元素value添加到陣列index位置
-     *
-     * @param index 陣列中的位置
-     * @param value 欲添加元素值
-     */
-    public void add(int index, E value) {
-        if (index < 0 || index > getSize()) {
-            throw new IllegalArgumentException("Add failed. Require index >= 0 and index <= size");
-        }
+                    if (jsonstr[i] == '\"'){
+                        if (objectCount == 0){
+                            objectCount = 1;
+                        }else{
+                            objectCount = 0;
+                        }
+                    }else if (arr_count == arr_index){
+                        strncat(value, &jsonstr[i], 1);
+                    }
+                break;
 
-        if (getSize() == getData().length) {
-            resize(data.length * 2);
-        }
+                case 5:
+                    if (jsonstr[i] == ','){
+                        if (arr_count < arr_index){
+                            arr_count++;
+                            break;
+                        }else{
+                            value = realloc(value, strlen(value) + 1);
+                            return value;
+                        }
+                    }
 
-        for (int i = size - 1; i >= index; i--) {
-            data[i + 1] = data[i];
-        }
-        data[index] = value;
-        setSize(getSize() + 1);
-    }
-
-    /**
-     * 重新分配data空間，並將原有數據複製到新空間中
-     *
-     * @param capacity 調整後的data陣列長度
-     */
-    private void resize(int capacity) {
-        E[] newDate = (E[]) new Object[capacity];
-        if (getSize() >= 0) System.arraycopy(data, 0, newDate, 0, getSize());
-        this.data = newDate;
-    }
-
-    /**
-     * 重寫的toString()方法，打印Array陣列中的消息
-     *
-     * @return 返回字串型式消息
-     */
-    @Override
-    public String toString() {
-        StringBuilder res = new StringBuilder();
-        res.append(String.format("Array: size = %d, capacity = %d\n", getSize(), getCapacity()));
-        res.append('[');
-        for (int i = 0; i < getSize(); i++) {
-            res.append(data[i]);
-            if (i != getSize() - 1) {
-                res.append(", ");
+                    if (jsonstr[i] == ']'){
+                        value = realloc(value, strlen(value) + 1);
+                        return value;
+                    }
+                    
+                    if (arr_count == arr_index && jsonstr[i] != '\"'){
+                        strncat(value, &jsonstr[i], 1);
+                    }
+                break;
             }
         }
-        res.append(']');
-        return res.toString();
+							
+        free(value);
+		value = NULL;
     }
+
+    return NULL;
+}
+
+/**
+ * This function is uesd to find the specific value pair with its key(ID)
+ * @param payload Json String
+ * @param len Json data length
+ * @param ID Json ID pair
+ * @return return specific value in char*(if ID exist), otherwise return NULL
+ * @author Zach Lin 
+ */
+char* json_format_string_parse(char* payload, uint32_t len, const char* ID){
+    int index = 0;
+
+    while (index < len){
+      if (payload[index] == '{'){
+		char* id = JSONAnaylsis((payload + index), "id", 0, 0);
+		char* value = JSONAnaylsis((payload + index), "value", 0, 0);
+			
+        if (value != NULL && strlen(value) > 0 && strcmp(id, ID) == 0){
+            free(id);
+            id = NULL;
+            return value;
+        }
+        free(value);
+        value = NULL;
+      }
+
+      index++;
+    }
+    return NULL;
+}
+
+/**
+ * A simple Json value Generics getter, use type to determine
+ * return data type
+ * @param str Json String
+ * @param len Json data length
+ * @param ID Json ID pair
+ * @param type data types, refer to enum jsonType
+ * @return a void* type pointer, so casting is definitely needed
+ * @author Zach Lin 
+ */
+void* json_value_getter(char* str, int len, char* ID, int type){
+    void* value=NULL;
+    int intValue;
+    float floatValue;
+
+    switch(type){
+        case String:
+            value = (char*)json_format_string_parse(str, len, "GW_42634");
+        break;
+            
+        case Integer:
+            value = (char*)json_format_string_parse(str, len, "GW_42634");
+            sscanf(value, "%d", &intValue);
+            free(value);
+            value = &intValue;
+        break;
+        
+        case Float:
+            value = (char*)json_format_string_parse(str, len, "GW_42634");
+            sscanf(value, "%f", &floatValue);
+            free(value);
+            value = &floatValue;
+        break;
+        
+        case Boolean:
+            value = (char*)json_format_string_parse(str, len, "GW_42634");
+            sscanf(value, "%d", &intValue);
+            free(value);
+            *(int*)value = (intValue == 0) ? false : true;
+        break;
+        
+        default:
+            return NULL;
+        break;
+    }
+    return value;
+}
+
+/**
+ * 
+ * 
+ * 
+ */
+void json_value_setter(char* ID, void* value, char* topic, int type){
+    switch(type){
+        case String:
+            // IOTAddJsonString(ID, "", (char*)value, topic, 0);
+        break;
+        
+        case Integer:
+            // IOTAddJsonInt(ID, "", *(int*)value, topic, 0);
+        break;
+        
+        case Float:
+            // IOTAddJsonFloat(ID, "", *(float*)value, topic, 0);
+        break;
+        
+        case Boolean:
+            // IOTAddJsonInt(ID, "", *(int*)value, topic, 0);
+        break;
+        
+        default:
+        break;
+    }
+}
+
+int main(){
+    char* str = "[{\"id\":\"GW_42632\",\"value\":25},{\"id\":\"GW_42633\",\"value\":0},{\"id\":\"GW_42634\",\"value\":15.3}]";
+    int len = strlen(str);
+    
+    printf("str = %f\n\n", *((float*)json_value_getter(str, len, "GW_42634", Float)));
+    
+    return 0;
 }
