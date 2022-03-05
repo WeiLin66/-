@@ -1,19 +1,19 @@
 /**
  * leetcode 232. Implement Stack using Queues
- * solution 1
+ * solution 2
  */
 
 import java.util.*;
 
-class MyStack {
+class MyStack3 {
 
     private LinkedList<Integer> queue;
-    private LinkedList<Integer> temp;
-    private int top;
 
-    public MyStack() {
+    /**
+     *
+     */
+    public MyStack3() {
         queue = new LinkedList<>();
-        temp = new LinkedList<>();
     }
 
     /**
@@ -21,8 +21,11 @@ class MyStack {
      * @param x
      */
     public void push(int x) {
-        top = x;
         queue.add(x);
+        for(int i=0; i<queue.size()-1; i++){
+            int tail = queue.remove();
+            queue.add(tail);
+        }
     }
 
     /**
@@ -30,18 +33,10 @@ class MyStack {
      * @return
      */
     public int pop() {
-        while(queue.size() -1 > 0){
-            temp.add(queue.remove());
+        if(empty()){
+            throw new IllegalArgumentException("Stack is empty");
         }
-
-        int res = queue.remove();
-
-        while(temp.size() != 0){
-            top = temp.remove();
-            queue.add(top);
-        }
-
-        return res;
+        return queue.remove();
     }
 
     /**
@@ -52,7 +47,7 @@ class MyStack {
         if(empty()){
             throw new IllegalArgumentException("Stack is empty");
         }
-        return top;
+        return queue.peek();
     }
 
     /**
@@ -63,12 +58,8 @@ class MyStack {
         return queue.size() == 0;
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        MyStack mystack = new MyStack();
+        MyStack3 mystack = new MyStack3();
         for(int i=0; i<10; i++){
             mystack.push(i);
             System.out.println("top: " + mystack.top());

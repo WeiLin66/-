@@ -1,17 +1,17 @@
 /**
  * leetcode 232. Implement Stack using Queues
- * solution 1
+ * solution 2
  */
 
 import java.util.*;
 
-class MyStack {
+class MyStack2 {
 
     private LinkedList<Integer> queue;
     private LinkedList<Integer> temp;
     private int top;
 
-    public MyStack() {
+    public MyStack2() {
         queue = new LinkedList<>();
         temp = new LinkedList<>();
     }
@@ -63,12 +63,8 @@ class MyStack {
         return queue.size() == 0;
     }
 
-    /**
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        MyStack mystack = new MyStack();
+        MyStack2 mystack = new MyStack2();
         for(int i=0; i<10; i++){
             mystack.push(i);
             System.out.println("top: " + mystack.top());

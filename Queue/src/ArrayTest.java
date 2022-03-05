@@ -27,18 +27,18 @@ public class ArrayTest {
     }
 
     /**
-     * 將queueTest方法執行5次，並取其平均時間
+     * 將queueTest方法執行10次，並取其平均時間
      *
      * @param q       隊列類型對象
      * @param opCount 測試資料總量
-     * @return 執行5次平均時間
+     * @return 執行10次平均時間
      */
     public static double averageQueueTest(Queue<Integer> q, int opCount) {
         double totalTime = 0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             totalTime += queueTest(q, opCount);
         }
-        return totalTime / 5.0;
+        return totalTime / 10.0;
     }
 
     /**

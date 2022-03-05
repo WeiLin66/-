@@ -1,43 +1,49 @@
 /**
  * leetcode 225. Implement Stack using Queues
- * solution 1
+ * solution 3
  */
 
 import java.util.Stack;
 
-class MyQueue {
+class MyQueue3 {
 
     private Stack<Integer> stack;
     private Stack<Integer> temp;
+    private int top;
 
-    public MyQueue() {
+    public MyQueue3() {
         stack = new Stack<>();
         temp = new Stack<>();
     }
 
     public void push(int x) {
-        while (!stack.empty()) {
-            temp.push(stack.pop());
+        if(stack.empty()){
+            top = x;
         }
         stack.push(x);
-        while (!temp.empty()) {
-            stack.push(temp.pop());
-        }
     }
 
     public int pop() {
-        if (empty()) {
-            throw new IllegalArgumentException("Queue is empty");
+        if(!temp.empty()){
+            return temp.pop();
         }
+
+        while(stack.size() > 1){
+            temp.push(stack.pop());
+        }
+
         return stack.pop();
     }
 
     public int peek() {
-        return stack.peek();
+        if(!temp.empty()){
+            return temp.peek();
+        }
+        return top;
     }
 
     public boolean empty() {
-        return stack.empty();
+        return stack.empty() && temp.empty();
     }
 
     public String toString() {
@@ -58,6 +64,7 @@ class MyQueue {
             System.out.println(myQueue);
         }
     }
+
 }
 
 /**
