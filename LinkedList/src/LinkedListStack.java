@@ -1,9 +1,9 @@
 public class LinkedListStack<E> implements Stack<E> {
 
-    private LinkedList<E> linkedList;
+    private MyLinkedList<E> linkedList;
 
     public LinkedListStack() {
-        linkedList = new LinkedList<>();
+        linkedList = new MyLinkedList<>();
     }
 
     @Override

@@ -1,4 +1,4 @@
-public class LinkedList<E> {
+public class MyLinkedList<E> {
 
     private class Node {
         public E value;
@@ -27,7 +27,7 @@ public class LinkedList<E> {
     private Node dummyHead;
     private int size;
 
-    public LinkedList() {
+    public MyLinkedList() {
         dummyHead = new Node();
         setSize(0);
     }
@@ -145,7 +145,7 @@ public class LinkedList<E> {
     }
 
     public static void main(String[] args) {
-        LinkedList<Integer> linkedList = new LinkedList<>();
+        MyLinkedList<Integer> linkedList = new MyLinkedList<>();
         for (int i = 0; i < 5; i++) {
             linkedList.addFirst(i);
         }
