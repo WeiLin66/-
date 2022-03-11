@@ -51,7 +51,7 @@ public class LinkedListR<E> {
 
     public Node add(Node head, int index, E value) {
         if (index == 0) {
-            Node n = new Node(value);
+            Node n = new Node(value, head);
             n.next = head.next;
             head.next = n;
             setSize(getSize() + 1);
