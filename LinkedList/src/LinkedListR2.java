@@ -1,212 +1,242 @@
+/**
+ * 優化版本遞迴鏈表
+ */
+
 import javafx.util.Pair;
 
 public class LinkedListR2<E> {
-
-    private class Node{
-        public E e;
+    private class Node {
+        public E value;
         public Node next;
 
-        public Node(E e, Node next){
-            this.e = e;
+        public Node(E value, Node next) {
+            this.value = value;
             this.next = next;
         }
 
-        public Node(E e){
-            this(e, null);
+        public Node(E value) {
+            this(value, null);
         }
 
-        public Node(){
+        public Node() {
             this(null, null);
         }
 
         @Override
-        public String toString(){
-            return e.toString();
+        public String toString() {
+            StringBuilder res = new StringBuilder();
+            res.append(value);
+            res.append("-->");
+            Node n = next;
+            while (n != null) {
+                res.append(n.value);
+                res.append("-->");
+                n = n.next;
+            }
+            res.append("null");
+            return res.toString();
         }
+
     }
 
-    // 在鏈表的遞歸實現中，我們不使用虛擬頭結點，也能無差異的處理位置0的問題：）
-    private Node head;
+    private Node headNode;
     private int size;
 
-    public LinkedListR2(){
-        head = null;
-        size = 0;
+    public LinkedListR2() {
+        headNode = null;
+        setSize(0);
     }
 
-    // 獲取鏈表中的元素個數
-    public int getSize(){
-        return size;
+    public int getSize() {
+        return this.size;
     }
 
-    // 返回鏈表是否為空
-    public boolean isEmpty(){
-        return size == 0;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    // 在鏈表的index(0-based)位置添加新的元素e
-    public void add(int index, E e){
-        if(index < 0 || index > size) {
-            throw new IllegalArgumentException("Add failed. Illegal index.");
+    public Node getHead() {
+        return this.headNode;
+    }
+
+    public boolean isEmpty() {
+        return getSize() == 0;
+    }
+
+    public void add(int index, E value) {
+        if (isEmpty()) {
+            headNode = new Node(value);
+            setSize(1);
+        }else {
+            headNode = add(headNode, index, value);
+        }
+    }
+
+    private Node add(Node head, int index, E value) {
+        String depthString = recursiveDepth(index);
+        System.out.print(depthString);
+        System.out.println("Call: attempt to add  " + value + " in index: " + index);
+
+        if (index == 0) {
+            System.out.print(depthString);
+            System.out.println("Return: Node " + value);
+
+            setSize(getSize() + 1);
+            return new Node(value, head);
         }
 
-        head = add(head, index, e);
-        size ++;
+        Node res = add(head.next, index - 1, value);
+        System.out.print(depthString);
+        System.out.println("After: add " + value);
+
+        head.next = res;
+
+        System.out.print(depthString);
+        System.out.println("Return: head " + res);
+
+        return head;
     }
 
-    // 在以node為頭結點的鏈表的index位置插入元素e，遞歸算法
-    private Node add(Node node, int index, E e){
-        if(index == 0) {
-            return new Node(e, node);
+
+    public String recursiveDepth(int index) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i <= index; i++) {
+            res.append("--");
         }
-        node.next = add(node.next, index - 1, e);
-        return node;
+        return res.toString();
     }
 
-    // 在鏈表頭添加新的元素e
-    public void addFirst(E e){
-        add(0, e);
+    public void addFirst(E value) {
+        add(0, value);
     }
 
-    // 在鏈表末尾添加新的元素e
-    public void addLast(E e){
-        add(size, e);
+    public void addLast(E value) {
+        add(getSize(), value);
     }
 
-    // 獲得鏈表的第index(0-based)個位置的元素
-    public E get(int index){
-        if(index < 0 || index >= size) {
-            throw new IllegalArgumentException("Get failed. Illegal index.");
+    public E get(int index) {
+        if (index < 0 || index >= getSize()) {
+            throw new IllegalArgumentException("Illegal index");
         }
-        return get(head, index);
+        return get(headNode, index);
     }
 
-    // 在以node為頭結點的鏈表中，找到第index個元素，遞歸算法
-    private E get(Node node, int index){
-        if(index == 0) {
-            return node.e;
+    private E get(Node head, int index) {
+        if (index == 0) {
+            return head.value;
         }
-        return get(node.next, index - 1);
+        return get(head.next, index - 1);
     }
 
-    // 獲得鏈表的第一個元素
-    public E getFirst(){
+    public E getFront() {
         return get(0);
     }
 
-    // 獲得鏈表的最後一個元素
-    public E getLast(){
-        return get(size - 1);
+    public E getLast() {
+        return get(getSize() - 1);
     }
 
-    // 修改鏈表的第index(0-based)個位置的元素為e
-    public void set(int index, E e){
-        if(index < 0 || index >= size) {
-            throw new IllegalArgumentException("Update failed. Illegal index.");
+    public void set(int index, E value) {
+        if (index < 0 || index >= getSize()) {
+            throw new IllegalArgumentException("Illegal index");
         }
-        set(head, index, e);
+        if (isEmpty()) {
+            throw new IllegalArgumentException("LinkedList is empty");
+        }
+        set(headNode, index, value);
     }
 
-    // 修改以node為頭結點的鏈表中，第index(0-based)個位置的元素為e，遞歸算法
-    private void set(Node node, int index, E e){
-        if(index == 0){
-            node.e = e;
+    private void set(Node head, int index, E value) {
+        if (index == 0) {
+            head.value = value;
             return;
         }
-        set(node.next, index - 1, e);
+        set(head.next, index - 1, value);
     }
 
-    // 查找鏈表中是否有元素e
-    public boolean contains(E e){
-        return contains(head, e);
+    public boolean contains(E value) {
+        if (isEmpty()) {
+            throw new IllegalArgumentException("LinkedList is empty");
+        }
+        return contains(headNode, value);
     }
 
-    // 在以node為頭結點的鏈表中，查找是否存在元素e，遞歸算法
-    private boolean contains(Node node, E e){
-        if(node == null) {
+    private boolean contains(Node head, E value) {
+        if (head == null) {
             return false;
         }
-        if(node.e.equals(e)) {
+        if (head.value.equals(value)) {
             return true;
         }
-        return contains(node.next, e);
+        return contains(head.next, value);
     }
 
-    // 從鏈表中刪除index(0-based)位置的元素, 返回刪除的元素
-    public E remove(int index){
-        if(index < 0 || index >= size) {
-            throw new IllegalArgumentException("Remove failed. Index is illegal.");
+    public E remove(int index) {
+        if (isEmpty()) {
+            throw new IllegalArgumentException("LinkedList is empty");
+        } else if (index < 0 || index >= getSize()) {
+            throw new IllegalArgumentException("Illegal index");
         }
-        Pair<Node, E> res = remove(head, index);
-        size --;
-        head = res.getKey();
-        return res.getValue();
+        Pair<Node, E> temp = remove(headNode, index);
+        headNode = temp.getKey();
+        setSize(getSize() - 1);
+        return temp.getValue();
     }
 
-    // 從以node為頭結點的鏈表中，刪除第index位置的元素，遞歸算法
-    // 返回值包含兩個元素，刪除後的鏈表頭結點和刪除的值：）
-    private Pair<Node, E> remove(Node node, int index){
-        if(index == 0) {
-            return new Pair<>(node.next, node.e);
+    private Pair<Node, E> remove(Node head, int index) {
+        if (index == 0) {
+            return new Pair<>(head.next, head.value);
         }
-        Pair<Node, E> res = remove(node.next, index - 1);
-        node.next = res.getKey();
-        return new Pair<>(node, res.getValue());
+        Pair<Node, E> pres = remove(head.next, index - 1);
+        head = pres.getKey();
+        return new Pair<>(head, pres.getValue());
     }
 
-    // 從鏈表中刪除第一個元素, 返回刪除的元素
-    public E removeFirst(){
+    public E removeFront() {
         return remove(0);
     }
 
-    // 從鏈表中刪除最後一個元素, 返回刪除的元素
-    public E removeLast(){
-        return remove(size - 1);
+    public E removeLast() {
+        return remove(getSize() - 1);
     }
 
-    // 從鏈表中刪除元素e
-    public void removeElement(E e){
-        head = removeElement(head, e);
+    public void removeElement(E value) {
+        if (!contains(value)) {
+            return;
+        }
+        setSize(getSize() - 1);
+        headNode = removeElement(headNode, value);
     }
 
-    // 從以node為頭結點的鏈表中，刪除元素e，遞歸算法
-    private Node removeElement(Node node, E e){
-        if(node == null) {
-            return null;
+    private Node removeElement(Node head, E value) {
+        if (head.value.equals(value)) {
+            return head.next;
         }
-
-        // 先遞歸處理 node.next
-        node.next = removeElement(node.next, e);
-
-        // 再根據 node 的值判斷應該返回什麽
-        if(node.e.equals(e)){
-            size --;
-            return node.next;
-        }
-        return node;
+        head.next = removeElement(head.next, value);
+        return head;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder res = new StringBuilder();
-        Node cur = head;
-        while(cur != null){
-            res.append(cur + "->");
-            cur = cur.next;
+        res.append("LinkedList [");
+        Node n = headNode;
+        for (int i = 0; i < getSize(); i++) {
+            res.append("(" + n.value + ")");
+            res.append("--> ");
+            n = n.next;
         }
-        res.append("NULL");
+        res.append("NULL]");
 
         return res.toString();
     }
 
     public static void main(String[] args) {
-        LinkedListR2<Integer> list = new LinkedListR2<>();
-        for(int i = 0 ; i < 10 ; i ++) {
-            list.addFirst(i);
+        LinkedListR2<Integer> linkedListR2 = new LinkedListR2<>();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(linkedListR2);
+            linkedListR2.addLast(i);
         }
-
-        while(!list.isEmpty()) {
-            System.out.println("removed " + list.removeLast());
-        }
+        System.out.println("Result: \n" + linkedListR2);
     }
 }
