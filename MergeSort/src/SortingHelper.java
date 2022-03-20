@@ -37,6 +37,11 @@ public class SortingHelper {
             case "Merge Sort2":
                 MergeSort.sort2(arr);
             break;
+
+            case "Merge Sort3":
+                MergeSort.sort3(arr);
+            break;
+
             default:
                 System.out.println("No Such Sort...");
             break;
