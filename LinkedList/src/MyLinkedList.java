@@ -44,7 +44,7 @@ public class MyLinkedList<E> {
         return getSize() == 0;
     }
 
-    public void add(int index, E value) {
+    public void add(int index, E value) { // index 1, 2, 3
         if (index < 0 || index > getSize()) {
             throw new IllegalArgumentException("wrong index!");
         }

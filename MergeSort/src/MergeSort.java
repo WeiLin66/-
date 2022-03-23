@@ -1,3 +1,5 @@
+import com.sun.scenario.effect.Merge;
+
 import java.util.Arrays;
 
 public class MergeSort {
@@ -15,8 +17,7 @@ public class MergeSort {
     }
 
     public static <T extends Comparable<T>> void sort3(T[] arr) {
-        T[] temp = Arrays.copyOf(arr, arr.length);
-        mergeSort3(arr, 0, arr.length - 1, len(arr), temp);
+        mergeSort3(arr, 0, arr.length - 1);
     }
 
     private static <T extends Comparable<T>> int len(T[] arr) {
@@ -65,19 +66,16 @@ public class MergeSort {
     /**
      * 自底向上的Merge Sort
      */
-    private static <T extends Comparable<T>> void mergeSort3(T[] arr, int l, int r, int len, T[] temp) {
-        if (r - l <= 15) {
-            InsertionSort.insertionSort(arr, l, r);
-            return;
-        }
-
-        int next = (len / 2);
-        /* 是否重新引入next，但是判斷是否超出字尾--> n-1 */
-        int mid = (l + r) / 2;
-        mergeSort3(arr, l, mid, next, temp);
-        mergeSort3(arr, mid + 1, r, next, temp);
-        if (arr[mid].compareTo(arr[mid + 1]) > 0) {
-            merge3(arr, l, r, mid, temp);
+    private static <T extends Comparable<T>> void mergeSort3(T[] arr, int l, int r) {
+        T[] temp = Arrays.copyOf(arr , arr.length);
+        int n = arr.length;
+        for(int sz = 1; sz < n; sz += sz){
+            /* merge [i ... i + sz - 1], [i + sz ... i + sz + sz - 1] */
+            for(int i = 0; i + sz < n; i = i + sz + sz){
+                if(arr[i + sz - 1].compareTo(arr[i + sz]) > 0) {
+                    merge2(arr, i, i + sz - 1, Math.min(arr.length - 1, i + sz + sz - 1), temp);
+                }
+            }
         }
     }
 
@@ -105,7 +103,7 @@ public class MergeSort {
      * 優化版本merge，防止在內存中重複創造陣列
      */
     private static <T extends Comparable<T>> void merge2(T[] arr, int l, int mid, int r, T[] temp) {
-        System.arraycopy(arr, l, temp, l, (r - l));
+        System.arraycopy(arr, l, temp, l, (r - l + 1));
         int i = l, j = mid + 1;
         for (int k = i; k <= r; k++) {
             if (i > mid) {
@@ -120,49 +118,11 @@ public class MergeSort {
         }
     }
 
-    private static <T extends Comparable<T>> void merge3(T[] arr, int l, int r, int mid, T[] temp) {
-        System.arraycopy(arr, l, temp, l, (r - l) + 1);
-        int i = l;
-        int j = mid + 1;
-        for (int k = i; k <= r; k++) {
-            if (i > mid) {
-                arr[k] = temp[j++];
-            } else if (j > r) {
-                arr[k] = temp[i++];
-            } else if (temp[i].compareTo(temp[j]) < 0) {
-                arr[k] = temp[i++];
-            } else {
-                arr[k] = temp[j++];
-            }
-        }
-    }
-
-    private static String recursiveDepth(int index) {
-        StringBuilder res = new StringBuilder();
-        for (int i = 0; i <= index; i++) {
-            res.append("--");
-        }
-        return res.toString();
-    }
-
-    private static <T extends Comparable<T>> void arrayPrint(T[] arr, int l, int r) {
-        for (int i = l; i <= r; i++) {
-            if (i == l) {
-                System.out.print("[");
-            }
-            System.out.print(arr[i]);
-            if (i != r) {
-                System.out.print(", ");
-            }
-        }
-        System.out.println("]");
-    }
-
     public static void main(String[] args) {
-        int n = 100000;
-        Integer[] arr = ArrayGenerator.intArrayGenerator(n, n);
-        SortingHelper.sortTest("Merge Sort", arr);
-        SortingHelper.sortTest("Merge Sort2", arr);
-        SortingHelper.sortTest("Merge Sort3", arr);
+        Integer[] arr = {48,37,66,25,14,63,2,91};
+        MergeSort.sort3(arr);
+        for (int i : arr) {
+            System.out.println(i);
+        }
     }
 }
