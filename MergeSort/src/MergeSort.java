@@ -1,5 +1,3 @@
-import com.sun.scenario.effect.Merge;
-
 import java.util.Arrays;
 
 public class MergeSort {
@@ -67,12 +65,19 @@ public class MergeSort {
      * 自底向上的Merge Sort
      */
     private static <T extends Comparable<T>> void mergeSort3(T[] arr, int l, int r) {
-        T[] temp = Arrays.copyOf(arr , arr.length);
+        T[] temp = Arrays.copyOf(arr, arr.length);
         int n = arr.length;
-        for(int sz = 1; sz < n; sz += sz){
+
+        /* 使用插入排序法進行優化，參數取值為10 */
+        for (int i = 0; i < n; i += 10) {
+            InsertionSort.insertionSort(arr, i, Math.min(i + 15, n - 1));
+        }
+
+        /* 由於使用插入排序法，所以sz改為從20開始 */
+        for (int sz = 10; sz < n; sz += sz) {
             /* merge [i ... i + sz - 1], [i + sz ... i + sz + sz - 1] */
-            for(int i = 0; i + sz < n; i = i + sz + sz){
-                if(arr[i + sz - 1].compareTo(arr[i + sz]) > 0) {
+            for (int i = 0; i + sz < n; i = i + sz + sz) {
+                if (arr[i + sz - 1].compareTo(arr[i + sz]) > 0) {
                     merge2(arr, i, i + sz - 1, Math.min(arr.length - 1, i + sz + sz - 1), temp);
                 }
             }
@@ -119,10 +124,8 @@ public class MergeSort {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = {48,37,66,25,14,63,2,91};
-        MergeSort.sort3(arr);
-        for (int i : arr) {
-            System.out.println(i);
-        }
+        int n = 100000;
+        Integer[] arr = ArrayGenerator.intArrayGenerator(n, n);
+        SortingHelper.sortTest("Merge Sort3", arr);
     }
 }
