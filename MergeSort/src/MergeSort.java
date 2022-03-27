@@ -32,7 +32,6 @@ public class MergeSort {
     // 底層實現
     private static <T extends Comparable<T>> void mergeSort(T[] arr, int l, int r) {
         if (l >= r) {
-//            System.out.println("只剩單一元素: " + arr[l]);
             return;
         }
 
@@ -43,9 +42,6 @@ public class MergeSort {
     }
 
     private static <T extends Comparable<T>> void mergeSort2(T[] arr, int l, int r, T[] temp) {
-//        if (l >= r) {
-//            return;
-//        }
         /* 當數量足夠少時，引為Merge Sort的常數項較大，所以使用Insertion Sort反而比較有利 */
         if (r - l <= 15) {
             InsertionSort.insertionSort(arr, l, r);
@@ -126,6 +122,6 @@ public class MergeSort {
     public static void main(String[] args) {
         int n = 100000;
         Integer[] arr = ArrayGenerator.intArrayGenerator(n, n);
-        SortingHelper.sortTest("Merge Sort3", arr);
+        SortingHelper.sortTest("Merge Sort", arr);
     }
 }
