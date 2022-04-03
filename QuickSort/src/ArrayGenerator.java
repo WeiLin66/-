@@ -36,11 +36,42 @@ public class ArrayGenerator {
         }
         Arrays.sort(integers);
 
-        if(!SortingHelper.isSort(integers)){
+        if (!SortingHelper.isSort(integers)) {
             return null;
         }
 
         return integers;
+    }
+
+    /**
+     * 產生特殊陣列使得sort4的時間複雜度為O(n^2)
+     *
+     * @param n 陣列長度
+     * @return 整型陣列
+     */
+    public static Integer[] generateSpecialArray(int n) {
+
+        Integer[] arr = new Integer[n];
+        generateSpecialArray(arr, 0, arr.length - 1, 0);
+        return arr;
+    }
+
+    private static void generateSpecialArray(Integer[] arr, int l, int r, int value) {
+        if (l > r) {
+            return;
+        }
+
+        int mid = (l + r) / 2;
+        arr[l] = value;
+        generateSpecialArray(arr, l + 1, r, value + 1);
+        swap(arr, l, mid);
+    }
+
+    private static <E> void swap(E[] arr, int i, int j) {
+
+        E t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
     }
 
     /**

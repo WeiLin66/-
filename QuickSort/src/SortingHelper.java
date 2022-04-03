@@ -38,6 +38,14 @@ public class SortingHelper {
                 QuickSort.sort2(arr);
                 break;
 
+            case "Quick Sort3":
+                QuickSort.sort3(arr);
+                break;
+
+            case "Quick Sort4":
+                QuickSort.sort4(arr);
+                break;
+
             default:
                 System.out.println("No Such Sort...");
                 break;

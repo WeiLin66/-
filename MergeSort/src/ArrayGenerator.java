@@ -36,7 +36,7 @@ public class ArrayGenerator {
         }
         Arrays.sort(integers);
 
-        if(!SortingHelper.isSort(integers)){
+        if (!SortingHelper.isSort(integers)) {
             return null;
         }
 
