@@ -23,6 +23,21 @@ public class QuickSort {
         quickSort4(arr, 0, arr.length - 1);
     }
 
+    public static <T extends Comparable<T>> void sort5(T[] arr) {
+        Random rd = new Random();
+        quickSort2ways1(arr, 0, arr.length - 1, rd);
+    }
+
+    public static <T extends Comparable<T>> void sort6(T[] arr) {
+        Random rd = new Random();
+        quickSort2ways2(arr, 0, arr.length - 1, rd);
+    }
+
+    public static <T extends Comparable<T>> void sort7(T[] arr) {
+        Random rd = new Random();
+        quickSort3ways(arr, 0, arr.length - 1, rd);
+    }
+
     private static <T extends Comparable<T>> void quickSort(T[] arr, int l, int r) {
         if (l >= r) {
             return;
@@ -72,6 +87,65 @@ public class QuickSort {
         int p = partition3(arr, l, r);
         quickSort4(arr, l, p - 1);
         quickSort4(arr, p + 1, r);
+    }
+
+    /**
+     * 雙路快速排序，避免元素全部相同造成複雜度為O(n^2)問題
+     * version 1
+     */
+    private static <T extends Comparable<T>> void quickSort2ways1(T[] arr, int l, int r, Random rd) {
+        if (l >= r) {
+            return;
+        }
+
+        int p = partition4(arr, l, r, rd);
+        quickSort2ways1(arr, l, p - 1, rd);
+        quickSort2ways1(arr, p + 1, r, rd);
+    }
+
+    /**
+     * 雙路快速排序，避免元素全部相同造成複雜度為O(n^2)問題
+     * version 2
+     */
+    private static <T extends Comparable<T>> void quickSort2ways2(T[] arr, int l, int r, Random rd) {
+        if (l >= r) {
+            return;
+        }
+
+        int p = partition5(arr, l, r, rd);
+        quickSort2ways2(arr, l, p - 1, rd);
+        quickSort2ways2(arr, p + 1, r, rd);
+    }
+
+    /**
+     * 三路快速排序，專門處理相陣列元素全部相同狀況
+     */
+    private static <T extends Comparable<T>> void quickSort3ways(T[] arr, int l, int r, Random rd) {
+        if (l >= r) {
+            return;
+        }
+
+        swap(arr, l, rd.nextInt(r - l + 1) + l);
+        /* arr[l + 1]...arr[lt] < v, arr[lt + 1]...arr[i - 1] == v, arr[i] current, arr[gt]...arr[r] > v */
+        int lt = l, gt = r + 1, i = l + 1;
+        while(i < gt){
+            if(arr[i].compareTo(arr[l]) < 0){
+                lt++;
+                if(i != lt) {
+                    swap(arr, i, lt);
+                }
+                i++;
+            }else if (arr[i].compareTo(arr[l]) > 0){
+                swap(arr, i, gt - 1);
+                gt--;
+            }else{
+                i++;
+            }
+        }
+        swap(arr, l, lt);
+        /* arr[l]...arr[lt - 1] < v, arr[lt]...arr[gt - 1] == v, arr[gt]...arr[r] > v */
+        quickSort3ways(arr, l, lt - 1, rd);
+        quickSort3ways(arr, gt, r, rd);
     }
 
     private static <T extends Comparable<T>> int partition(T[] arr, int l, int r) {
@@ -143,6 +217,57 @@ public class QuickSort {
         return i;
     }
 
+    /**
+     * 2 ways partition version 1
+     */
+    private static <T extends Comparable<T>> int partition4(T[] arr, int l, int r, Random rd) {
+        swap(arr, l, rd.nextInt(r - l + 1) + l);
+        int i = l + 1;
+        int j = r;
+        while (i <= j) {
+            if (arr[i].compareTo(arr[l]) < 0) {
+                i++;
+            } else if (arr[j].compareTo(arr[l]) > 0) {
+                j--;
+            } else {
+                swap(arr, i, j);
+                i++;
+                j--;
+            }
+        }
+        swap(arr, l, j);
+        return j;
+    }
+
+    /**
+     * 2 ways partition version 2
+     */
+    public static <T extends Comparable<T>> int partition5(T[] arr, int l, int r, Random rd) {
+        int p = l + rd.nextInt(r - l + 1);
+        swap(arr, l, p);
+        int i = l + 1;
+        int j = r;
+        while (true) {
+            while (i <= j && arr[i].compareTo(arr[l]) < 0) {
+                i++;
+            }
+
+            while (j >= i && arr[j].compareTo(arr[l]) > 0) {
+                j--;
+            }
+
+            if (i >= j) {
+                break;
+            }
+
+            swap(arr, i, j);
+            i++;
+            j--;
+        }
+        swap(arr, l, j);
+        return j;
+    }
+
     private static <T extends Comparable<T>> void swap(T[] arr, int i, int j) {
         T temp = arr[i];
         arr[i] = arr[j];
@@ -150,15 +275,11 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int n = 5;
-        Integer[] arr = ArrayGenerator.generateSpecialArray(n);
-        for (int i : arr) {
-            System.out.println(i + " ");
-        }
-        System.out.println();
-//        Integer[] arr2 = Arrays.copyOf(arr, n);
-//        SortingHelper.sortTest("Quick Sort4", arr);
-//        SortingHelper.sortTest("Quick Sort2", arr2);
+        int n = 500000;
+        Integer[] arr = ArrayGenerator.intArrayGenerator(n, 1);
+        Integer[] arr2 = Arrays.copyOf(arr, n);
+        SortingHelper.sortTest("3 Ways Quick Sort", arr);
+        SortingHelper.sortTest("2 Ways Quick Sort2", arr2);
     }
 
 }

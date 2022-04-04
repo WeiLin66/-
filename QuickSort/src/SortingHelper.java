@@ -46,6 +46,18 @@ public class SortingHelper {
                 QuickSort.sort4(arr);
                 break;
 
+            case "2 Ways Quick Sort1":
+                QuickSort.sort5(arr);
+                break;
+
+            case "2 Ways Quick Sort2":
+                QuickSort.sort6(arr);
+                break;
+
+            case "3 Ways Quick Sort":
+                QuickSort.sort7(arr);
+                break;
+
             default:
                 System.out.println("No Such Sort...");
                 break;

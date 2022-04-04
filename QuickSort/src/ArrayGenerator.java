@@ -50,7 +50,6 @@ public class ArrayGenerator {
      * @return 整型陣列
      */
     public static Integer[] generateSpecialArray(int n) {
-
         Integer[] arr = new Integer[n];
         generateSpecialArray(arr, 0, arr.length - 1, 0);
         return arr;
@@ -60,11 +59,10 @@ public class ArrayGenerator {
         if (l > r) {
             return;
         }
-
-        int mid = (l + r) / 2;
+        int mid = (r + l)/2;
         arr[l] = value;
-        generateSpecialArray(arr, l + 1, r, value + 1);
-        swap(arr, l, mid);
+        generateSpecialArray(arr, l + 1, r, ++value);
+        swap(arr, mid, l);
     }
 
     private static <E> void swap(E[] arr, int i, int j) {
