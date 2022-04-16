@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class MergeSort {
     private MergeSort() {
+
     }
 
     // 用戶接口只需要傳入陣列即可
@@ -42,8 +43,8 @@ public class MergeSort {
     }
 
     private static <T extends Comparable<T>> void mergeSort2(T[] arr, int l, int r, T[] temp) {
-        /* 當數量足夠少時，引為Merge Sort的常數項較大，所以使用Insertion Sort反而比較有利 */
-        if (r - l <= 15) {
+        /* 當數量足夠少時，因為Merge Sort的常數項較大，所以使用Insertion Sort反而比較有利 */
+        if (r - l <= 16) {
             InsertionSort.insertionSort(arr, l, r);
             return;
         }
@@ -52,7 +53,7 @@ public class MergeSort {
         mergeSort2(arr, l, mid, temp);
         mergeSort2(arr, mid + 1, r, temp);
         /* 若arr[mid] >= arr[mid+1]則不需要再比較，因為雙方都是有序且右區塊一定比較大 */
-        if (arr[mid].compareTo(arr[mid + 1]) >= 0) {
+        if (arr[mid].compareTo(arr[mid + 1]) > 0) {
             merge2(arr, l, mid, r, temp);
         }
     }
@@ -111,7 +112,7 @@ public class MergeSort {
                 arr[k] = temp[j++];
             } else if (j > r) {
                 arr[k] = temp[i++];
-            } else if (temp[i - l].compareTo(temp[j - l]) <= 0) {
+            } else if (temp[i].compareTo(temp[j]) <= 0) {
                 arr[k] = temp[i++];
             } else {
                 arr[k] = temp[j++];
@@ -122,6 +123,6 @@ public class MergeSort {
     public static void main(String[] args) {
         int n = 100000;
         Integer[] arr = ArrayGenerator.intArrayGenerator(n, n);
-        SortingHelper.sortTest("Merge Sort", arr);
+        SortingHelper.sortTest("Merge Sort2", arr);
     }
 }
