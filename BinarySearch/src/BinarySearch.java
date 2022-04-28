@@ -23,6 +23,18 @@ public class BinarySearch {
         return lowerCeil(arr, target);
     }
 
+    public static <T extends Comparable<T>> int searchLower(T[] arr, T target) {
+        return lower(arr, target);
+    }
+
+    public static <T extends Comparable<T>> int searchLowerFloor(T[] arr, T target) {
+        return lowerFloor(arr, target);
+    }
+
+    public static <T extends Comparable<T>> int searchUpperFloor(T[] arr, T target) {
+        return upperFloor2(arr, target);
+    }
+
     private static <T extends Comparable<T>> int binarySearchR(T[] arr, T target, int l, int r) {
         if (l > r) {
             return -1;
@@ -91,14 +103,14 @@ public class BinarySearch {
         int l = -1, r = arr.length - 1;
 
         while (l < r) {
-            int mid = l + (r - l) / 2;
+            int mid = l + (r - l + 1) / 2; /* 為了避免進入死循環，使用向上取整 */
             if (arr[mid].compareTo(target) >= 0) {
                 r = mid - 1;
             } else {
                 l = mid;
             }
         }
-        return r;
+        return l;
     }
 
     private static <T extends Comparable<T>> int ceil(T[] arr, T target) {
@@ -126,10 +138,45 @@ public class BinarySearch {
         return r;
     }
 
+    private static <T extends Comparable<T>> int lowerFloor(T[] arr, T target) {
+        int index = lower(arr, target);
+
+        if (index != arr.length - 1 && arr[index + 1].compareTo(target) == 0) {
+            return index + 1;
+        }
+
+        return index;
+    }
+
+    private static <T extends Comparable<T>> int upperFloor(T[] arr, T target) {
+        int index = lower(arr, target);
+
+        if (index == arr.length - 1 || arr[index + 1].compareTo(target) != 0) {
+            return index;
+        }
+
+        return ceil(arr, target);
+    }
+
+    private static <T extends Comparable<T>> int upperFloor2(T[] arr, T target) {
+        int l = -1, r = arr.length - 1;
+
+        while (l < r) {
+            int mid = l + (r - l + 1) / 2;
+            if (arr[mid].compareTo(target) > 0) {
+                r = mid - 1;
+            } else {
+                l = mid;
+            }
+        }
+
+        return l;
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {1, 1, 3, 3, 5, 5};
         for (int i = 0; i <= 6; i++) {
-            System.out.print(searchLowerCeil(arr, i) + " ");
+            System.out.print(searchUpperFloor(arr, i) + " ");
         }
         System.out.println();
     }
