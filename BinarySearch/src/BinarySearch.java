@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class BinarySearch {
     public static <T extends Comparable<T>> int searchR(T[] arr, T target) {
         return binarySearchR(arr, target, 0, arr.length - 1);
@@ -33,6 +35,27 @@ public class BinarySearch {
 
     public static <T extends Comparable<T>> int searchUpperFloor(T[] arr, T target) {
         return upperFloor2(arr, target);
+    }
+
+    public static <T extends Comparable<T>> int findTarget(T arr[], T target) {
+        int r = arr.length;
+        int l = 0;
+
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+
+            if (arr[mid].compareTo(target) >= 0) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        if (l < arr.length && arr[l].compareTo(target) == 0) {
+            return l;
+        }
+
+        return -1;
     }
 
     private static <T extends Comparable<T>> int binarySearchR(T[] arr, T target, int l, int r) {
@@ -176,7 +199,7 @@ public class BinarySearch {
     public static void main(String[] args) {
         Integer[] arr = {1, 1, 3, 3, 5, 5};
         for (int i = 0; i <= 6; i++) {
-            System.out.print(searchUpperFloor(arr, i) + " ");
+            System.out.print(findTarget(arr, i) + " ");
         }
         System.out.println();
     }
