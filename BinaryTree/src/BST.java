@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class BST<T extends Comparable<T>> {
 
     private class Node {
@@ -89,12 +91,25 @@ public class BST<T extends Comparable<T>> {
         preOrder(getRoot());
     }
 
-    public boolean contains(T value){
+    public void preOrderNR(){
+        preOrderNR(getRoot());
+    }
+
+    public void inOrder(){
+        inOrder(getRoot());
+    }
+
+    public void postOrder(){
+        postOrder(getRoot());
+    }
+
+    public boolean contains(T value) {
         return contains(getRoot(), value);
     }
 
     /**
      * 插入節點(用子節點來判斷)
+     *
      * @param node
      * @param value
      */
@@ -145,6 +160,7 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * 前序走訪
+     *
      * @param node
      */
     private void preOrder(Node node) {
@@ -157,29 +173,114 @@ public class BST<T extends Comparable<T>> {
     }
 
     /**
+     * 中序走訪
+     * 中序走訪可以將樹的數值從小到大排序
+     * @param node
+     */
+    private void inOrder(Node node){
+        if(node == null){
+            return;
+        }
+
+        inOrder(node.left);
+        System.out.println(node.value);
+        inOrder(node.right);
+    }
+
+    /**
+     * 後序走訪
+     * @param node
+     */
+    private void postOrder(Node node){
+        if(node == null){
+            return;
+        }
+
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.println(node.value);
+    }
+
+    /**
+     * 使用非遞迴方式編寫的前序走訪
+     * @param node
+     */
+    private void preOrderNR(Node node){
+        Stack<Node> stack = new Stack<>();
+        stack.push(node);
+
+        while(!stack.isEmpty()){
+            Node cur = stack.pop();
+            System.out.println(cur.value);
+
+            if(cur.right != null){
+                stack.push(cur.right);
+            }
+
+            if(cur.left != null){
+                stack.push(cur.left);
+            }
+        }
+    }
+
+    /**
+     * 課外作業: 新增非遞迴方式編寫的中序、後序走訪
+     */
+
+    /**
      * 查詢指定元素
+     *
      * @param node
      * @param value
      * @return
      */
-    private boolean contains(Node node, T value){
-        if(node == null){
+    private boolean contains(Node node, T value) {
+        if (node == null) {
             return false;
-        }else if(value.equals(node.value)){
+        } else if (value.equals(node.value)) {
             return true;
         }
 
         return (value.compareTo(node.value) > 0) ? contains(node.right, value) : contains(node.left, value);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, res, 0);
+        return res.toString();
+    }
+
+    private void generateBSTString(Node node, StringBuilder res, int depth) {
+        if (node == null) {
+            res.append(generateDepthString(depth) + "null\n");
+            return;
+        }
+
+        res.append(generateDepthString(depth) + node.value + "\n");
+        generateBSTString(node.left, res, depth + 1);
+        generateBSTString(node.right, res, depth + 1);
+    }
+
+    private String generateDepthString(int depth) {
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < depth; i++) {
+            res.append("==");
+        }
+        return res.toString();
+    }
+
     public static void main(String[] args) {
-        Integer[] i = {1, 3, 5, 7, 9, 4, 55, 0};
+        Integer[] i = {10, 3, 15, 27, 9, 4, 5, 0};
         BST<Integer> tree = new BST<Integer>();
 
         for (int v : i) {
             tree.add3(v);
         }
-        System.out.println(tree.contains(17));
+
+        tree.preOrderNR();
+        System.out.println();
+        tree.preOrder();
     }
 
 }
