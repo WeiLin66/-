@@ -1,4 +1,4 @@
-import java.util.Stack;
+import java.util.*;
 
 public class BST<T extends Comparable<T>> {
 
@@ -91,20 +91,52 @@ public class BST<T extends Comparable<T>> {
         preOrder(getRoot());
     }
 
-    public void preOrderNR(){
+    public void preOrderNR() {
         preOrderNR(getRoot());
     }
 
-    public void inOrder(){
+    public void inOrder() {
         inOrder(getRoot());
     }
 
-    public void postOrder(){
+    public void postOrder() {
         postOrder(getRoot());
+    }
+
+    public void levelOrder() {
+        levelOrder(getRoot());
     }
 
     public boolean contains(T value) {
         return contains(getRoot(), value);
+    }
+
+    public T min() {
+        if (getSize() == 0) {
+            throw new IllegalArgumentException("BST is empty!");
+        }
+
+        return min(getRoot()).value;
+    }
+
+    public T max() {
+        if (getSize() == 0) {
+            throw new IllegalArgumentException("BST is empty!");
+        }
+
+        return max(getRoot()).value;
+    }
+
+    public T removeMin() {
+        T res = min();
+        root = removeMin(getRoot());
+        return res;
+    }
+
+    public T removeMax() {
+        T res = max();
+        root = removeMax(getRoot());
+        return res;
     }
 
     /**
@@ -175,10 +207,11 @@ public class BST<T extends Comparable<T>> {
     /**
      * 中序走訪
      * 中序走訪可以將樹的數值從小到大排序
+     *
      * @param node
      */
-    private void inOrder(Node node){
-        if(node == null){
+    private void inOrder(Node node) {
+        if (node == null) {
             return;
         }
 
@@ -189,10 +222,11 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * 後序走訪
+     *
      * @param node
      */
-    private void postOrder(Node node){
-        if(node == null){
+    private void postOrder(Node node) {
+        if (node == null) {
             return;
         }
 
@@ -203,29 +237,49 @@ public class BST<T extends Comparable<T>> {
 
     /**
      * 使用非遞迴方式編寫的前序走訪
+     *
      * @param node
      */
-    private void preOrderNR(Node node){
+    private void preOrderNR(Node node) {
         Stack<Node> stack = new Stack<>();
         stack.push(node);
 
-        while(!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             Node cur = stack.pop();
             System.out.println(cur.value);
 
-            if(cur.right != null){
+            if (cur.right != null) {
                 stack.push(cur.right);
             }
 
-            if(cur.left != null){
+            if (cur.left != null) {
                 stack.push(cur.left);
             }
         }
     }
 
     /**
-     * 課外作業: 新增非遞迴方式編寫的中序、後序走訪
+     * 層序走訪
+     *
+     * @param node
      */
+    private void levelOrder(Node node) {
+        Deque<Node> deque = new ArrayDeque<>();
+        deque.add(node);
+
+        while (!deque.isEmpty()) {
+            Node cur = deque.remove();
+            System.out.println(cur.value);
+
+            if (cur.left != null) {
+                deque.add(cur.left);
+            }
+
+            if (cur.right != null) {
+                deque.add(cur.right);
+            }
+        }
+    }
 
     /**
      * 查詢指定元素
@@ -242,6 +296,62 @@ public class BST<T extends Comparable<T>> {
         }
 
         return (value.compareTo(node.value) > 0) ? contains(node.right, value) : contains(node.left, value);
+    }
+
+    /**
+     * @param node
+     * @return
+     */
+    private Node min(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return min(node.left);
+    }
+
+    /**
+     * @param node
+     * @return
+     */
+    private Node max(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return max(node.right);
+    }
+
+    /**
+     * 移除最小值
+     *
+     * @param node
+     * @return
+     */
+    private Node removeMin(Node node) {
+        if (node.left == null) {
+            Node ret = node.right;
+            node.right = null;
+            return ret;
+        }
+
+        node.left = removeMin(node.left);
+        return node;
+    }
+
+    /**
+     * 移除最大值
+     *
+     * @param node
+     * @return
+     */
+    private Node removeMax(Node node) {
+        if (node.right == null) {
+            Node ret = node.left;
+            node.left = null;
+            return ret;
+        }
+
+        node.right = removeMax(node.right);
+        return node;
     }
 
     @Override
@@ -271,16 +381,39 @@ public class BST<T extends Comparable<T>> {
     }
 
     public static void main(String[] args) {
-        Integer[] i = {10, 3, 15, 27, 9, 4, 5, 0};
         BST<Integer> tree = new BST<Integer>();
+        Random rnd = new Random();
+        ArrayList<Integer> arrayList = new ArrayList<>();
 
-        for (int v : i) {
-            tree.add3(v);
+        for (int i = 0; i < 10; i++) {
+            tree.add(rnd.nextInt(10000));
         }
 
-        tree.preOrderNR();
+        for (int i = 0; i < 10; i++) {
+            arrayList.add(tree.removeMin());
+            if (i != 0 && arrayList.get(i - 1) > arrayList.get(i)) {
+                throw new IllegalArgumentException("Remove Min Operation Error!");
+            } else {
+                System.out.print(arrayList.get(i) + ", ");
+            }
+        }
+
         System.out.println();
-        tree.preOrder();
+        arrayList.clear();
+
+        for (int i = 0; i < 10; i++) {
+            tree.add(rnd.nextInt(10000));
+        }
+
+        for (int i = 0; i < 10; i++) {
+            arrayList.add(tree.removeMax());
+            if (i != 0 && arrayList.get(i - 1) < arrayList.get(i)) {
+                throw new IllegalArgumentException("Remove Max Operation Error!");
+            } else {
+                System.out.print(arrayList.get(i) + ", ");
+            }
+        }
+
     }
 
 }
