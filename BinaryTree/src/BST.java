@@ -139,6 +139,10 @@ public class BST<T extends Comparable<T>> {
         return res;
     }
 
+    public void remove(T target) {
+        root = remove(getRoot(), target);
+    }
+
     /**
      * 插入節點(用子節點來判斷)
      *
@@ -330,6 +334,7 @@ public class BST<T extends Comparable<T>> {
         if (node.left == null) {
             Node ret = node.right;
             node.right = null;
+            setSize(getSize() - 1);
             return ret;
         }
 
@@ -347,10 +352,45 @@ public class BST<T extends Comparable<T>> {
         if (node.right == null) {
             Node ret = node.left;
             node.left = null;
+            setSize(getSize() - 1);
             return ret;
         }
 
         node.right = removeMax(node.right);
+        return node;
+    }
+
+    /**
+     * @param node
+     * @return
+     */
+    private Node remove(Node node, T target) {
+        if (node == null) {
+            return null;
+        }
+
+        if (target.compareTo(node.value) > 0) {
+            node.right = remove(node.right, target);
+        } else if (target.compareTo(node.value) < 0) {
+            node.left = remove(node.left, target);
+        } else { // node.value == target
+            if (node.left == null) { // 只有右子樹
+                Node ret = node.right;
+                node.right = null;
+                setSize(getSize() - 1);
+                return ret;
+            } else if (node.right == null) { // 只有左子樹
+                Node ret = node.left;
+                node.left = null;
+                setSize(getSize() - 1);
+                return ret;
+            }
+            /* 同時擁有左柚子樹 */
+            Node successor = min(node.right);
+            node.right = removeMin(node.right);
+            return successor;
+        }
+
         return node;
     }
 
