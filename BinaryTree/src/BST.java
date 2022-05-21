@@ -143,6 +143,29 @@ public class BST<T extends Comparable<T>> {
         root = remove(getRoot(), target);
     }
 
+    public T floor(T target) {
+        if(target.compareTo(min()) < 0){
+            return null;
+        }
+
+        return floor(getRoot(), null, target);
+    }
+
+    public T ceil(T target) {
+        if(target.compareTo(max()) > 0){
+            return null;
+        }
+
+        return ceil(getRoot(), null, target);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        generateBSTString(root, res, 0);
+        return res.toString();
+    }
+
     /**
      * 插入節點(用子節點來判斷)
      *
@@ -361,6 +384,8 @@ public class BST<T extends Comparable<T>> {
     }
 
     /**
+     * 刪除特定元素
+     *
      * @param node
      * @return
      */
@@ -394,12 +419,6 @@ public class BST<T extends Comparable<T>> {
         return node;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder res = new StringBuilder();
-        generateBSTString(root, res, 0);
-        return res.toString();
-    }
 
     private void generateBSTString(Node node, StringBuilder res, int depth) {
         if (node == null) {
@@ -420,40 +439,83 @@ public class BST<T extends Comparable<T>> {
         return res.toString();
     }
 
+    /**
+     * 使用二分搜索樹實現floor(小於target的最大值)
+     *
+     * @param node
+     * @param pre
+     * @param target
+     * @return
+     */
+    private T floor(Node node, Node pre, T target) {
+        T floorValue;
+
+        if (node == null) {
+            return pre.value;
+        }
+
+        if (target.compareTo(node.value) < 0 && node.left == null) {
+            return pre.value;
+        }
+
+        if (node.value.equals(target)) {
+            return node.value;
+        }
+
+        if (node.value.compareTo(target) > 0) {
+            floorValue = floor(node.left, node, target);
+        } else {
+            floorValue = floor(node.right, node, target);
+        }
+
+        return floorValue;
+    }
+
+    /**
+     *
+     * @param node
+     * @param pre
+     * @param target
+     * @return
+     */
+    private T ceil(Node node, Node pre, T target) {
+        T ceilValue;
+        boolean flag = false;
+
+        if (node == null) {
+            return pre.value;
+        }
+
+        if (target.equals(node.value)) {
+            return node.value;
+        }
+
+        if (node.left != null && target.compareTo(node.left.value) > 0 && target.compareTo(node.value) < 0) {
+            flag = true;
+        }
+
+        if (node.value.compareTo(target) > 0) {
+            ceilValue = ceil(node.left, node, target);
+        } else {
+            ceilValue = ceil(node.right, node, target);
+        }
+
+        if(target.compareTo(ceilValue) > 0){
+            ceilValue = pre.value;
+        }
+
+        return (flag) ? ((node.value.compareTo(ceilValue) < 0) ? node.value : ceilValue) : ceilValue;
+    }
+
     public static void main(String[] args) {
         BST<Integer> tree = new BST<Integer>();
-        Random rnd = new Random();
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        int[] arr = {41, 22, 58, 15, 33, 50, 63, 13, 37, 42, 53};
 
-        for (int i = 0; i < 10; i++) {
-            tree.add(rnd.nextInt(10000));
+        for (int i = 0; i < arr.length; i++) {
+            tree.add3(arr[i]);
         }
 
-        for (int i = 0; i < 10; i++) {
-            arrayList.add(tree.removeMin());
-            if (i != 0 && arrayList.get(i - 1) > arrayList.get(i)) {
-                throw new IllegalArgumentException("Remove Min Operation Error!");
-            } else {
-                System.out.print(arrayList.get(i) + ", ");
-            }
-        }
-
-        System.out.println();
-        arrayList.clear();
-
-        for (int i = 0; i < 10; i++) {
-            tree.add(rnd.nextInt(10000));
-        }
-
-        for (int i = 0; i < 10; i++) {
-            arrayList.add(tree.removeMax());
-            if (i != 0 && arrayList.get(i - 1) < arrayList.get(i)) {
-                throw new IllegalArgumentException("Remove Max Operation Error!");
-            } else {
-                System.out.print(arrayList.get(i) + ", ");
-            }
-        }
-
+        System.out.println(tree.floor(33));
     }
 
 }
