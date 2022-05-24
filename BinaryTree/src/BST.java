@@ -415,9 +415,13 @@ public class BST<T extends Comparable<T>> {
                 setSize(getSize() - 1);
                 return ret;
             }
-            /* 同時擁有左柚子樹 */
+            /* 同時擁有左右子樹 */
             Node successor = min(node.right);
-            node.right = removeMin(node.right);
+            successor.right = removeMin(node.right);
+            successor.left = node.left;
+
+            node.left = node.right = null;
+
             return successor;
         }
 
