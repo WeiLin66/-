@@ -212,6 +212,21 @@ public class Array<E> {
     }
 
     /**
+     * 陣列元素交換
+     * @param i
+     * @param j
+     */
+    public void swap(int i, int j){
+        if(i < 0 || j < 0 || i >= getSize() || j >= getSize()){
+            throw new IllegalArgumentException("Illegal index!");
+        }
+
+        E temp = data[i];
+        data[i] = data[j];
+        data[j] = temp;
+    }
+
+    /**
      * 重新分配data空間，並將原有數據複製到新空間中
      *
      * @param capacity 調整後的data陣列長度
