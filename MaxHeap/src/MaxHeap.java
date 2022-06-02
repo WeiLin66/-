@@ -5,6 +5,13 @@ public class MaxHeap<T extends Comparable<T>> {
         data = new Array<>(capacity);
     }
 
+    public MaxHeap(T[] arr) {
+        data = new Array<>(arr);
+        for (int i = parent(arr.length - 1); i >= 0; i--) {
+            siftDown(i);
+        }
+    }
+
     public MaxHeap() {
         data = new Array<>();
     }
@@ -19,6 +26,7 @@ public class MaxHeap<T extends Comparable<T>> {
 
     /**
      * 添加元素
+     *
      * @param value
      */
     public void add(T value) {
@@ -28,6 +36,7 @@ public class MaxHeap<T extends Comparable<T>> {
 
     /**
      * 取出最大值
+     *
      * @return
      */
     public T findMax() {
@@ -36,6 +45,7 @@ public class MaxHeap<T extends Comparable<T>> {
 
     /**
      * 取出最大值並刪除元素
+     *
      * @return
      */
     public T extractMax() {
@@ -49,19 +59,16 @@ public class MaxHeap<T extends Comparable<T>> {
 
     /**
      * 取出最大值，並替會成元素value
+     *
      * @param value
      * @return
      */
-    public T replace(T value){
+    public T replace(T value) {
         T ret = findMax();
         data.set(0, value);
         siftDown(0);
         return ret;
     }
-
-    /**
-     * 實現Heapify
-     */
 
     /**
      * 返回節點的父親節點
@@ -99,6 +106,7 @@ public class MaxHeap<T extends Comparable<T>> {
     /**
      * 向上調整節點(適用於add操作)
      * 每次和父節點比較大小，若大於父節點則交換
+     *
      * @param index
      */
     private void siftUP(int index) {
@@ -111,6 +119,7 @@ public class MaxHeap<T extends Comparable<T>> {
     /**
      * 向下調整(適用於extractMax)
      * 每次向左右子節點中的最大值比較，若小於則與其交換
+     *
      * @param index
      */
     private void siftDown(int index) {
@@ -120,7 +129,7 @@ public class MaxHeap<T extends Comparable<T>> {
                 i = rightChild(index);
             }
 
-            if(data.get(index).compareTo(data.get(i)) >= 0){
+            if (data.get(index).compareTo(data.get(i)) >= 0) {
                 break;
             }
 
