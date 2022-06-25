@@ -52,6 +52,56 @@ public class ShellSort {
         }
     }
 
+    /**
+     * 希爾排序法3
+     *
+     * @param data
+     * @param <T>
+     */
+    static <T extends Comparable<T>> void sort3(T[] data) {
+        int h = data.length / 2;
+        while (h >= 1) {
+            for (int i = h; i < data.length; i++) {
+                T temp = data[i];
+                int j;
+                for (j = i; j - h >= 0 && temp.compareTo(data[j - h]) < 0; j -= h) {
+                    data[j] = data[j - h];
+                }
+                data[j] = temp;
+            }
+
+            h /= 2;
+        }
+    }
+
+    /**
+     * 使用不同步長序列的希爾排序
+     *
+     * @param data
+     * @param <T>
+     */
+    static <T extends Comparable<T>> void sort4(T[] data) {
+        int h = 1;
+
+        /* 1, 4, 13, 40, 121... */
+        while (h < data.length) {
+            h = h * 3 + 1;
+        }
+
+        while (h >= 1) {
+            for (int i = h; i < data.length; i++) {
+                T temp = data[i];
+                int j;
+                for (j = i; j - h >= 0 && temp.compareTo(data[j - h]) < 0; j -= h) {
+                    data[j] = data[j - h];
+                }
+                data[j] = temp;
+            }
+
+            h /= 3;
+        }
+    }
+
     static <T extends Comparable<T>> void swap(T[] data, int i, int j) {
         T temp = data[i];
         data[i] = data[j];
@@ -59,11 +109,15 @@ public class ShellSort {
     }
 
     public static void main(String[] args) {
-        int n = 10000;
+        int n = 100000;
         Integer[] data = ArrayGenerator.intArrayGenerator(n, n);
         Integer[] data2 = Arrays.copyOf(data, n);
+        Integer[] data3 = Arrays.copyOf(data, n);
+        Integer[] data4 = Arrays.copyOf(data, n);
 
         SortingHelper.sortTest("Shell Sort", data);
         SortingHelper.sortTest("Shell Sort2", data2);
+        SortingHelper.sortTest("Shell Sort3", data3);
+        SortingHelper.sortTest("Shell Sort4", data4);
     }
 }

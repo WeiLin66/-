@@ -38,6 +38,14 @@ public class SortingHelper {
                 ShellSort.sort2(arr);
                 break;
 
+            case "Shell Sort3":
+                ShellSort.sort3(arr);
+                break;
+
+            case "Shell Sort4":
+                ShellSort.sort4(arr);
+                break;
+
             default:
                 System.out.println("No Such Sort...");
                 break;
