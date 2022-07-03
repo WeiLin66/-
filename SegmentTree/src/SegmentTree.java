@@ -37,7 +37,6 @@ public class SegmentTree<T> {
         buildSegmentTree(rightTreeIndex, mid + 1, r);
 
         tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);
-//        tree[treeIndex] = tree[leftTreeIndex] + tree[rightTreeIndex];
     }
 
     public int getSize() {
@@ -57,6 +56,75 @@ public class SegmentTree<T> {
 
     private int rightChild(int index) {
         return 2 * index + 2;
+    }
+
+    /**
+     * 搜尋操作
+     *
+     * @param queryL
+     * @param queryR
+     * @return
+     */
+    public T query(int queryL, int queryR) {
+        if (queryL < 0 || queryR >= data.length) {
+            throw new IllegalArgumentException("No such Interval!");
+        }
+        return query(0, 0, data.length - 1, queryL, queryR);
+    }
+
+    private T query(int treeIndex, int l, int r, int queryL, int queryR) {
+        if (l == queryL && r == queryR) {
+            return tree[treeIndex];
+        }
+
+        int mid = l + (r - l) / 2;
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+
+        if (queryL > mid) { // 區間在mid右側，不能等於，因為mid屬於左子節點範疇
+            return query(rightTreeIndex, mid + 1, r, queryL, queryR);
+        } else if (queryR <= mid) { // 區間在mid左側，可以等於，因為mid屬於左子節點範疇
+            return query(leftTreeIndex, l, mid, queryL, queryR);
+        }
+
+        /* 區間被mid切分 */
+        T leftRes = query(leftTreeIndex, l, mid, queryL, mid);
+        T rightRes = query(rightTreeIndex, mid + 1, r, mid + 1, queryR);
+
+        return merger.merge(leftRes, rightRes);
+    }
+
+    /**
+     * 更新操作
+     * @param index
+     * @param val
+     */
+    public void set(int index, T val) {
+        if (index < 0 || index >= tree.length) {
+            throw new IllegalArgumentException("Wrong index!");
+        }
+
+        set(0, 0, data.length - 1, index, val);
+    }
+
+    private void set(int treeIndex, int l, int r, int index, T val) {
+        if (l == r) {
+            data[index] = val;
+            tree[treeIndex] = val;
+            return;
+        }
+
+        int mid = l + (r - l) / 2;
+        int leftTreeIndex = leftChild(treeIndex);
+        int rightTreeIndex = rightChild(treeIndex);
+
+        if (index >= mid + 1) {
+            set(rightTreeIndex, mid + 1, r, index, val);
+        } else {
+            set(leftTreeIndex, l, mid, index, val);
+        }
+
+        tree[treeIndex] = merger.merge(tree[leftTreeIndex], tree[rightTreeIndex]);
     }
 
     @Override

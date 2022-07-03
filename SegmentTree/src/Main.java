@@ -9,6 +9,10 @@ public class Main {
 //    });
 
         SegmentTree<Integer> segTree = new SegmentTree<>(arr, (a, b) -> a + b);
-        System.out.println(segTree);
+        System.out.println(segTree.query(0, 2));
+
+        segTree.set(1, 100);
+
+        System.out.println(segTree.query(0, 2));
     }
 }
