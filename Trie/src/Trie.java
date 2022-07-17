@@ -60,7 +60,7 @@ public class Trie {
     }
 
     /**
-     * 遞迴式的添加節點到Trie中
+     * 遞迴的添加節點到Trie中
      *
      * @param s
      */

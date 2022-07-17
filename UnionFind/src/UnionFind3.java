@@ -1,12 +1,19 @@
-public class UnionFind2 implements UF {
+/**
+ * 優化版本UnionFind2，使用節點數少的跟節點去合併多的那個
+ */
+
+public class UnionFind3 implements UF {
 
     private int[] parent;
+    private int[] sz; // 判斷節點數量
 
-    public UnionFind2(int size) {
+    public UnionFind3(int size) {
         parent = new int[size];
+        sz = new int[size];
 
         for (int i = 0; i < size; i++) {
             parent[i] = i;
+            sz[i] = 1;
         }
     }
 
@@ -21,7 +28,7 @@ public class UnionFind2 implements UF {
     }
 
     /**
-     * 合併元素p與元素q的集合，複雜度O(h)，h為樹高
+     * 合併時進行判斷
      * @param p
      * @param q
      */
@@ -34,17 +41,17 @@ public class UnionFind2 implements UF {
             return;
         }
 
-        parent[pRoot] = qRoot;
+        if (sz[pRoot] < sz[qRoot]) {
+            parent[pRoot] = qRoot;
+            sz[qRoot] += sz[pRoot];
+        } else {
+            parent[qRoot] = pRoot;
+            sz[pRoot] += sz[qRoot];
+        }
     }
 
-    /**
-     * find element p's parent
-     *
-     * @param p
-     * @retrn
-     */
     private int find(int p) {
-        if (p < 0 || p >= getSize()) {
+        if (p < 0 || p > getSize()) {
             throw new IllegalArgumentException("invalid index!");
         }
 
