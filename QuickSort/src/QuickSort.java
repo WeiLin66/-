@@ -38,6 +38,9 @@ public class QuickSort {
         quickSort3ways(arr, 0, arr.length - 1, rd);
     }
 
+    /**
+     * 第一版快速排序
+     */
     private static <T extends Comparable<T>> void quickSort(T[] arr, int l, int r) {
         if (l >= r) {
             return;
@@ -128,17 +131,17 @@ public class QuickSort {
         swap(arr, l, rd.nextInt(r - l + 1) + l);
         /* arr[l + 1, lt] < v, arr[lt + 1, i - 1] == v, arr[i] current, arr[gt, r] > v */
         int lt = l, gt = r + 1, i = l + 1;
-        while(i < gt){
-            if(arr[i].compareTo(arr[l]) < 0){
+        while (i < gt) {
+            if (arr[i].compareTo(arr[l]) < 0) {
                 lt++;
-                if(i != lt) {
+                if (i != lt) {
                     swap(arr, i, lt);
                 }
                 i++;
-            }else if (arr[i].compareTo(arr[l]) > 0){
+            } else if (arr[i].compareTo(arr[l]) > 0) {
                 swap(arr, i, gt - 1);
                 gt--;
-            }else{
+            } else {
                 i++;
             }
         }
