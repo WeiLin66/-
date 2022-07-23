@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * 使用映射版本的二元樹來建構AVL樹
  */
@@ -50,17 +52,71 @@ public class AVLTree<K extends Comparable<K>, V> {
     }
 
     /**
+     * 檢查是否為一棵二元樹
+     *
+     * @return
+     */
+    public boolean isBST() {
+        if (root == null) {
+            return true;
+        }
+
+        ArrayList<K> arr = new ArrayList<>();
+        inOrder(root, arr);
+
+        for (int i = 0; i < arr.size() - 1; i++) {
+            if (arr.get(i).compareTo(arr.get(i + 1)) > 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 中序走訪
+     * @param node
+     * @param arr
+     */
+    private void inOrder(Node node, ArrayList<K> arr) {
+        if (node == null) {
+            return;
+        }
+
+        inOrder(node.left, arr);
+        arr.add(node.key);
+        inOrder(node.right, arr);
+    }
+
+    public boolean isBalanced(){
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node node){
+        if(node == null){
+            return true;
+        }
+
+        if(getBalanceFactor(node) > 1){
+            return false;
+        }
+
+        return isBalanced(node.left) && isBalanced(node.right);
+    }
+
+
+    /**
      * 獲取高度
      */
-    private int getHeight(Node node){
-        if(node == null){
+    private int getHeight(Node node) {
+        if (node == null) {
             return 0;
         }
         return node.height;
     }
 
     public void add(K key, V value) {
-        add(root, key, value);
+        root = add(root, key, value);
     }
 
     public V remove(K key) {
@@ -86,6 +142,14 @@ public class AVLTree<K extends Comparable<K>, V> {
         node.value = newValue;
     }
 
+    private int getBalanceFactor(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        return Math.abs(getHeight(node.left) - getHeight(node.right));
+    }
+
     private Node add(Node node, K key, V value) {
         if (node == null) {
             size++;
@@ -98,6 +162,13 @@ public class AVLTree<K extends Comparable<K>, V> {
             node.right = add(node.right, key, value);
         } else {
             node.value = value;
+        }
+
+        node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+        int balanceFactor = getBalanceFactor(node);
+
+        if (balanceFactor > 1) {
+            System.out.println("unbalanced: " + balanceFactor);
         }
 
         return node;

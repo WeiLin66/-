@@ -32,7 +32,7 @@ public class BST<K extends Comparable<K>, V>  {
     private int size;
 
     public void add(K key, V value) {
-        add(root, key, value);
+        root = add(root, key, value);
     }
 
     public V remove(K key) {
