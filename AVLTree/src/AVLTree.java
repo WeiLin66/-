@@ -97,7 +97,7 @@ public class AVLTree<K extends Comparable<K>, V> {
             return true;
         }
 
-        if(getBalanceFactor(node) > 1){
+        if(Math.abs(getBalanceFactor(node)) > 1){
             return false;
         }
 
@@ -147,7 +147,30 @@ public class AVLTree<K extends Comparable<K>, V> {
             return 0;
         }
 
-        return Math.abs(getHeight(node.left) - getHeight(node.right));
+        return getHeight(node.left) - getHeight(node.right);
+    }
+
+    // 對節點y進行向右旋轉操作，返回旋轉後新的根節點x
+    //        y                              x
+    //       / \                           /   \
+    //      x   T4     向右旋轉 (y)        z     y
+    //     / \       - - - - - - - ->    / \   / \
+    //    z   T3                       T1  T2 T3 T4
+    //   / \
+    // T1   T2
+    private Node rightRotate(Node y){
+        Node x = y.left;
+        Node T3 = x.right;
+
+        // 右旋轉
+        x.right = y;
+        y.left = T3;
+
+        // 更新height
+        y.height = 1 + Math.max(getHeight(y.left), getHeight(y.right));
+        x.height = 1 + Math.max(getHeight(x.left), getHeight(x.right));
+
+        return x;
     }
 
     private Node add(Node node, K key, V value) {
@@ -165,10 +188,17 @@ public class AVLTree<K extends Comparable<K>, V> {
         }
 
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
+
+        // 計算平衡因子
         int balanceFactor = getBalanceFactor(node);
 
-        if (balanceFactor > 1) {
+        if (Math.abs(balanceFactor) > 1) {
             System.out.println("unbalanced: " + balanceFactor);
+        }
+
+        // 右旋轉
+        if(balanceFactor > 1 && getHeight(node.left) >= 0){
+            return rightRotate(node);
         }
 
         return node;
