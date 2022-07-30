@@ -1,4 +1,4 @@
-public class LinkedListMap<K, V> implements Map<K, V>{
+public class LinkedListMap<K, V> implements Map<K, V> {
 
     private class Node {
         public K key;
@@ -12,7 +12,7 @@ public class LinkedListMap<K, V> implements Map<K, V>{
         }
 
         public Node(K key) {
-            this(key, null,  null);
+            this(key, null, null);
         }
 
         public Node() {
@@ -29,32 +29,39 @@ public class LinkedListMap<K, V> implements Map<K, V>{
     private Node dummyHead;
     private int size;
 
-    public LinkedListMap(){
-
+    public LinkedListMap() {
+        dummyHead = new Node();
+        size = 0;
     }
 
     @Override
     public void add(K key, V value) {
-        if(getNode(key) != null){
-            return;
+        Node node = getNode(key);
+        if (node == null) {
+            dummyHead.next = new Node(key, value, dummyHead.next);
+            size++;
+        } else {
+            node.value = value;
         }
-
-        dummyHead.next = new Node(key, value, dummyHead.next);
-        size++;
     }
 
     @Override
-    public V remove(K key) {
-        Node cur = dummyHead;
-        while (cur.next != null){
-            if(cur.next.key.equals(key)){
-                Node res = cur.next;
-                cur.next = res.next;
-                res.next = null;
-                size--;
-                return res.value;
-            }
+    public V remove(K key){
+        Node prev = dummyHead;
+        while(prev.next != null){
+            if(prev.next.key.equals(key))
+                break;
+            prev = prev.next;
         }
+
+        if(prev.next != null){
+            Node delNode = prev.next;
+            prev.next = delNode.next;
+            delNode.next = null;
+            size --;
+            return delNode.value;
+        }
+
         return null;
     }
 
@@ -72,7 +79,7 @@ public class LinkedListMap<K, V> implements Map<K, V>{
     @Override
     public void set(K key, V newValue) {
         Node node = getNode(key);
-        if(node == null){
+        if (node == null) {
             throw new IllegalArgumentException("key : " + key + " doesn't exist!");
         }
 
@@ -89,10 +96,10 @@ public class LinkedListMap<K, V> implements Map<K, V>{
         return size == 0;
     }
 
-    private Node getNode(K key){
-        Node cur = dummyHead;
-        while(cur != null){
-            if(cur.key.equals(key)){
+    private Node getNode(K key) {
+        Node cur = dummyHead.next;
+        while (cur != null) {
+            if (cur.key.equals(key)) {
                 return cur;
             }
             cur = cur.next;

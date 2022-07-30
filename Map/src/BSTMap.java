@@ -6,39 +6,36 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
         public Node left;
         public Node right;
 
-        public Node(K key, V value, Node right, Node left) {
+        public Node(K key, V value) {
             this.key = key;
             this.value = value;
-            this.right = right;
-            this.left = left;
+            this.right = null;
+            this.left = null;
         }
-
-        public Node(K key) {
-            this(key, null, null, null);
-        }
-
-        public Node() {
-            this(null, null, null, null);
-        }
-
-        @Override
-        public String toString() {
-            return this.key.toString() + " : " + this.value.toString();
-        }
-
     }
 
     private Node root;
     private int size;
 
+    public BSTMap(){
+        root = null;
+        size = 0;
+    }
+
     @Override
     public void add(K key, V value) {
-        add(root, key, value);
+        root = add(root, key, value);
     }
 
     @Override
     public V remove(K key) {
-        root = remove(root, key);
+        Node node = getNode(root, key);
+
+        if(node != null) {
+            root = remove(root, key);
+            return node.value;
+        }
+
         return null;
     }
 
@@ -76,7 +73,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
     private Node add(Node node, K key, V value) {
         if (node == null) {
             size++;
-            return new Node(key, value, null, null);
+            return new Node(key, value);
         }
 
         if (key.compareTo(node.key) < 0) {
@@ -148,9 +145,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map<K, V> {
             Node successor = min(node.right);
             successor.right = removeMin(node.right);
             successor.left = node.left;
-
             node.left = node.right = null;
-
             return successor;
         }
 
