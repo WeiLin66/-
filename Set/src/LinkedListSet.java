@@ -1,8 +1,8 @@
 public class LinkedListSet<T> implements Set<T>{
-    private MyLinkedList<T> list;
+    private LinkedList<T> list;
 
     public LinkedListSet(){
-        list = new MyLinkedList<>();
+        list = new LinkedList<>();
     }
 
     @Override
