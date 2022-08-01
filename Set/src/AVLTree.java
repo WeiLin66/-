@@ -184,11 +184,11 @@ public class AVLTree<K extends Comparable<K>, V> {
     //     T3 T4
     private Node leftRotate(Node y) {
         Node x = y.right;
-        Node T2 = x.left;
+        Node T3 = x.left;
 
         // 左旋轉
         x.left = y;
-        y.right = T2;
+        y.right = T3;
 
         // 更新height
         y.height = 1 + Math.max(getHeight(y.left), getHeight(y.right));
@@ -224,33 +224,36 @@ public class AVLTree<K extends Comparable<K>, V> {
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
 
         // 高度相同則不需要改變
-        if (originalHeight == node.height) {
-            return node;
-        }
+        if (originalHeight != node.height) {
 
-        // 計算平衡因子
-        int balanceFactor = getBalanceFactor(node);
+            // 計算平衡因子
+            int balanceFactor = getBalanceFactor(node);
 
-        // LL
-        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
-            return rightRotate(node);
-        }
+//        if (Math.abs(balanceFactor) > 1) {
+//            System.out.println("unbalanced: " + balanceFactor);
+//        }
 
-        // RR
-        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
-            return leftRotate(node);
-        }
+            // LL
+            if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
+                return rightRotate(node);
+            }
 
-        // LR
-        if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
-            node.left = leftRotate(node.left);
-            return rightRotate(node);
-        }
+            // RR
+            if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+                return leftRotate(node);
+            }
 
-        // RL
-        if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
-            node.right = rightRotate(node.right);
-            return leftRotate(node);
+            // LR
+            if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
+
+            // RL
+            if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
         }
 
         return node;
@@ -289,7 +292,9 @@ public class AVLTree<K extends Comparable<K>, V> {
             return null;
         }
 
+        int originalDiff = getBalanceFactor(node);
         Node retNode;
+
         if (key.compareTo(node.key) > 0) {
             node.right = remove(node.right, key);
             retNode = node;
@@ -311,7 +316,9 @@ public class AVLTree<K extends Comparable<K>, V> {
                 Node successor = min(node.right);
                 successor.right = remove(node.right, successor.key);
                 successor.left = node.left;
+
                 node.left = node.right = null;
+
                 retNode = successor;
             }
         }
@@ -321,6 +328,10 @@ public class AVLTree<K extends Comparable<K>, V> {
         }
 
         retNode.height = 1 + Math.max(getHeight(retNode.left), getHeight(retNode.right));
+
+        if (getBalanceFactor(retNode) == originalDiff) {
+            return retNode;
+        }
 
         int balanceFactor = getBalanceFactor(retNode);
 
@@ -344,4 +355,39 @@ public class AVLTree<K extends Comparable<K>, V> {
 
         return retNode;
     }
+
+    public static void main(String[] args) {
+
+        System.out.println("Pride and Prejudice");
+
+        ArrayList<String> words = new ArrayList<>();
+        if (FileOperation.readFile("D:\\Data-Structure-and-Algorithms\\AVLTree\\pride-and-prejudice.txt", words)) {
+            System.out.println("Total words: " + words.size());
+
+            AVLTree<String, Integer> map = new AVLTree<>();
+
+            for (String word : words) {
+                if (map.contains(word)) {
+                    map.set(word, map.get(word) + 1);
+                } else {
+                    map.add(word, 1);
+                }
+            }
+
+            System.out.println("Total different words: " + map.getSize());
+            System.out.println("Frequency of PRIDE: " + map.get("pride"));
+            System.out.println("Frequency of PREJUDICE: " + map.get("prejudice"));
+            System.out.println("isBST: " + map.isBST());
+            System.out.println("isBalanced: " + map.isBalanced());
+
+            for (String word : words) {
+                map.remove(word);
+                if (!map.isBST() || !map.isBalanced())
+                    throw new RuntimeException();
+            }
+        }
+
+        System.out.println();
+    }
+
 }

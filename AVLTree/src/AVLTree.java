@@ -199,6 +199,7 @@ public class AVLTree<K extends Comparable<K>, V> {
 
     /**
      * 插入節點並保持樹平衡
+     *
      * @param node
      * @param key
      * @param value
@@ -223,37 +224,36 @@ public class AVLTree<K extends Comparable<K>, V> {
         node.height = 1 + Math.max(getHeight(node.left), getHeight(node.right));
 
         // 高度相同則不需要改變
-        if(originalHeight == node.height){
-            return node;
-        }
+        if (originalHeight != node.height) {
 
-        // 計算平衡因子
-        int balanceFactor = getBalanceFactor(node);
+            // 計算平衡因子
+            int balanceFactor = getBalanceFactor(node);
 
 //        if (Math.abs(balanceFactor) > 1) {
 //            System.out.println("unbalanced: " + balanceFactor);
 //        }
 
-        // LL
-        if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
-            return rightRotate(node);
-        }
+            // LL
+            if (balanceFactor > 1 && getBalanceFactor(node.left) >= 0) {
+                return rightRotate(node);
+            }
 
-        // RR
-        if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
-            return leftRotate(node);
-        }
+            // RR
+            if (balanceFactor < -1 && getBalanceFactor(node.right) <= 0) {
+                return leftRotate(node);
+            }
 
-        // LR
-        if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
-            node.left = leftRotate(node.left);
-            return rightRotate(node);
-        }
+            // LR
+            if (balanceFactor > 1 && getBalanceFactor(node.left) < 0) {
+                node.left = leftRotate(node.left);
+                return rightRotate(node);
+            }
 
-        // RL
-        if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
-            node.right = rightRotate(node.right);
-            return leftRotate(node);
+            // RL
+            if (balanceFactor < -1 && getBalanceFactor(node.right) > 0) {
+                node.right = rightRotate(node.right);
+                return leftRotate(node);
+            }
         }
 
         return node;
@@ -282,6 +282,7 @@ public class AVLTree<K extends Comparable<K>, V> {
 
     /**
      * 刪除節點並保持平衡
+     *
      * @param node
      * @param key
      * @return
@@ -322,13 +323,13 @@ public class AVLTree<K extends Comparable<K>, V> {
             }
         }
 
-        if(retNode == null){
+        if (retNode == null) {
             return null;
         }
 
         retNode.height = 1 + Math.max(getHeight(retNode.left), getHeight(retNode.right));
 
-        if(getBalanceFactor(retNode) == originalDiff){
+        if (getBalanceFactor(retNode) == originalDiff) {
             return retNode;
         }
 
