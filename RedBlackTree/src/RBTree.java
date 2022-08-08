@@ -1,4 +1,4 @@
-public class RBTree<K extends Comparable<K>, V>  {
+public class RBTree<K extends Comparable<K>, V> {
 
     private static final boolean RED = true;
     private static final boolean BLACK = false;
@@ -29,10 +29,15 @@ public class RBTree<K extends Comparable<K>, V>  {
 
     public void add(K key, V value) {
         root = add(root, key, value);
+        root.color = BLACK;
     }
 
     public V remove(K key) {
-        root = remove(root, key);
+        Node node = getNode(root, key);
+        if(node != null){
+            root = remove(root, key);
+            return node.value;
+        }
         return null;
     }
 
@@ -47,7 +52,7 @@ public class RBTree<K extends Comparable<K>, V>  {
 
     public void set(K key, V newValue) {
         Node node = getNode(root, key);
-        if(node == null){
+        if (node == null) {
             throw new IllegalArgumentException("key : " + key + " doesn't exist!");
         }
 
@@ -65,11 +70,56 @@ public class RBTree<K extends Comparable<K>, V>  {
     /**
      * 判斷節點node顏色
      */
-    private boolean isRed(Node node){
-        if(node == null){
+    private boolean isRed(Node node) {
+        if (node == null) {
             return BLACK;
         }
         return node.color;
+    }
+
+    //   node                     x
+    //  /   \     左旋轉         /  \
+    // T1   x   --------->   node   T3
+    //     / \              /   \
+    //    T2 T3            T1   T2
+    private Node leftRotate(Node node) {
+        Node x = node.right;
+        Node T2 = x.left;
+
+        x.left = node;
+        node.right = T2;
+
+        x.color = node.color;
+        node.color = RED;
+
+        return x;
+    }
+
+    //     node                   x
+    //    /   \     右旋轉       /  \
+    //   x    T2   ------->   y   node
+    //  / \                       /  \
+    // y  T1                     T1  T2
+    private Node rightRotate(Node node) {
+        Node x = node.left;
+        Node T1 = x.right;
+
+        x.right = node;
+        node.left = T1;
+
+        x.color = node.color;
+        node.color = RED;
+
+        return x;
+    }
+
+    /**
+     * 對3節點添加元素，進行顏色翻轉
+     */
+    private void flipColors(Node node) {
+        node.color = RED;
+        node.left.color = BLACK;
+        node.right.color = BLACK;
     }
 
     private Node add(Node node, K key, V value) {
@@ -84,6 +134,18 @@ public class RBTree<K extends Comparable<K>, V>  {
             node.right = add(node.right, key, value);
         } else {
             node.value = value;
+        }
+
+        if(!isRed(node.left) && isRed(node.right)){
+            node = leftRotate(node);
+        }
+
+        if(isRed(node.left) && isRed(node.left.left)){
+            node = rightRotate(node);
+        }
+
+        if(isRed(node.left) && isRed(node.right)){
+            flipColors(node);
         }
 
         return node;
@@ -122,7 +184,7 @@ public class RBTree<K extends Comparable<K>, V>  {
         return node;
     }
 
-    private Node remove(Node node, K key){
+    private Node remove(Node node, K key) {
         if (node == null) {
             return null;
         }

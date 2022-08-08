@@ -11,7 +11,7 @@ public class Main {
         if (FileOperation.readFile("D:\\Data-Structure-and-Algorithms\\AVLTree\\pride-and-prejudice.txt", words)) {
             System.out.println("Total words: " + words.size());
 
-            Collections.sort(words); // 使BST退化成鏈表
+//            Collections.sort(words); // 使BST退化成鏈表
 
             // Test BST
             long startTime = System.nanoTime();
@@ -55,6 +55,27 @@ public class Main {
 
             time = (endTime - startTime) / 1000000000.0;
             System.out.println("AVL: " + time + " s");
+
+            // Test RBTree
+            startTime = System.nanoTime();
+
+            RBTree<String, Integer> brt = new RBTree<>();
+            for (String word : words) {
+                if (brt.contains(word)) {
+                    brt.set(word, brt.get(word) + 1);
+                } else {
+                    brt.add(word, 1);
+                }
+            }
+
+            for (String word : words) {
+                brt.contains(word);
+            }
+
+            endTime = System.nanoTime();
+
+            time = (endTime - startTime) / 1000000000.0;
+            System.out.println("RBT: " + time + " s");
         }
 
         System.out.println();
