@@ -11,8 +11,12 @@ public class InsertionSort {
      */
     public static <T extends Comparable<T>> void insertionSort(T[] arr) {
         for (int i = 0; i < arr.length; i++) {
-            for (int j = i; j > 0 && arr[j - 1].compareTo(arr[j]) > 0; j--) {
-                swap(arr, j - 1, j);
+            for (int j = i; j - 1 >= 0; j--) {
+                if(arr[j - 1].compareTo(arr[j]) > 0) {
+                    swap(arr, j - 1, j);
+                }else{
+                    break;
+                }
             }
         }
     }
@@ -26,7 +30,7 @@ public class InsertionSort {
         for (int i = 0; i < arr.length; i++) {
             T temp = arr[i];
             int j;
-            for (j = i; j > 0 && temp.compareTo(arr[j - 1]) < 0; j--) {
+            for (j = i; j - 1 >= 0 && temp.compareTo(arr[j - 1]) < 0; j--) {
                 arr[j] = arr[j - 1];
             }
             arr[j] = temp;
