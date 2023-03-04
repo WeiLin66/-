@@ -18,7 +18,7 @@ public class LoopQueue<E> implements Queue<E> {
     }
 
     /**
-     * 元素入對操作
+     * 元素入隊操作
      *
      * @param value 指定元素
      */
@@ -34,6 +34,8 @@ public class LoopQueue<E> implements Queue<E> {
 
     /**
      * 元素出隊操作
+     * 出隊後若當前大小小於capacity的1/4，則進行縮容
+     * 縮容需要避免size為1的狀況
      *
      * @return 刪除並返回隊首元素
      */

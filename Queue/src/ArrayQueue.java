@@ -13,7 +13,7 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
-     * 元素入對操作
+     * 元素入隊操作(插入隊尾)
      *
      * @param value 指定元素
      */
@@ -23,7 +23,7 @@ public class ArrayQueue<E> implements Queue<E> {
     }
 
     /**
-     * 元素出隊操作
+     * 元素出隊操作(出隊首)
      *
      * @return 刪除並返回隊首元素
      */

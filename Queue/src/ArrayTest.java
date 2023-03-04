@@ -65,6 +65,5 @@ public class ArrayTest {
         System.out.println("LoopQueueOp2: " + averageQueueTest(loopQueueOp2, opCount) + " s, for " + opCount + " datas");
         ArrayQueue<Integer> arrayQueue = new ArrayQueue<>();
         System.out.println("ArrayQueue: " + averageQueueTest(arrayQueue, opCount) + " s, for " + opCount + " datas");
-
     }
 }
