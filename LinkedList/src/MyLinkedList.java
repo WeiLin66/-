@@ -44,6 +44,12 @@ public class MyLinkedList<E> {
         return getSize() == 0;
     }
 
+    /**
+     * 添加節點至鏈表
+     *
+     * @param index 插入位置
+     * @param value 節點數值
+     */
     public void add(int index, E value) { // index 1, 2, 3
         if (index < 0 || index > getSize()) {
             throw new IllegalArgumentException("wrong index!");
@@ -56,14 +62,30 @@ public class MyLinkedList<E> {
         setSize(getSize() + 1);
     }
 
+    /**
+     * 將節點插入至節點頭部
+     *
+     * @param value 節點數值
+     */
     public void addFirst(E value) {
         add(0, value);
     }
 
+    /**
+     * 將節點插入鏈表尾部
+     *
+     * @param value
+     */
     public void addLast(E value) {
         add(getSize(), value);
     }
 
+    /**
+     * 取指定節點數值
+     *
+     * @param index 節點位置
+     * @return 節點數值
+     */
     public E get(int index) {
         if (index < 0 || index >= getSize()) {
             throw new IllegalArgumentException("Illegal index");
@@ -75,14 +97,30 @@ public class MyLinkedList<E> {
         return cur.value;
     }
 
+    /**
+     * 取頭節點數值
+     *
+     * @return 頭節點數值
+     */
     public E getFront() {
         return get(0);
     }
 
+    /**
+     * 取尾節點數值
+     *
+     * @return 尾節點數值
+     */
     public E getLast() {
         return get(getSize() - 1);
     }
 
+    /**
+     * 設置指定節點數值
+     *
+     * @param index 節點位置
+     * @param value 節點數值
+     */
     public void set(int index, E value) {
         if (index < 0 || index >= getSize()) {
             throw new IllegalArgumentException("Illegal index");
@@ -94,6 +132,12 @@ public class MyLinkedList<E> {
         cur.value = value;
     }
 
+    /**
+     * 是否包含數值為value的節點
+     *
+     * @param value 要搜尋的節點數值
+     * @return
+     */
     public boolean contains(E value) {
         for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
             if (cur.value.equals(value)) {
@@ -103,6 +147,12 @@ public class MyLinkedList<E> {
         return false;
     }
 
+    /**
+     * 刪除指定節點
+     *
+     * @param index 節點位置
+     * @return 被刪除的節點數值
+     */
     public E remove(int index) {
         if(isEmpty()){
             throw new IllegalArgumentException("LinkedList is empty");
@@ -121,10 +171,20 @@ public class MyLinkedList<E> {
         return cur.value;
     }
 
+    /**
+     * 刪除頭節點
+     *
+     * @return 被刪除節點數值
+     */
     public E removeFront() {
         return remove(0);
     }
 
+    /**
+     * 刪除尾節點
+     *
+     * @return 被刪除節點數值
+     */
     public E removeLast() {
         return remove(getSize() - 1);
     }

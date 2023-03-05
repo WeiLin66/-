@@ -6,26 +6,56 @@ public class LinkedListStack<E> implements Stack<E> {
         linkedList = new MyLinkedList<>();
     }
 
+    /**
+     * 入棧操作
+     * 添加節點到鏈表頭
+     *
+     * @param value 節點數值
+     */
     @Override
     public void push(E value) {
         linkedList.addFirst(value);
     }
 
+    /**
+     * 出棧操作
+     * 刪除頭節點
+     *
+     * @return 返回移除節點數值
+     */
     @Override
     public E pop() {
         return linkedList.removeFront();
     }
 
+    /**
+     * 棧是否為空
+     * 判斷鏈表是否為空
+     *
+     * @return 棧為空則返回真
+     */
     @Override
     public boolean isEmpty() {
         return linkedList.isEmpty();
     }
 
+    /**
+     * 查看棧頂元素
+     * 查看頭節點數值
+     *
+     * @return
+     */
     @Override
     public E peek() {
         return linkedList.getFront();
     }
 
+    /**
+     * 獲取棧的大小
+     * 計算鏈表長度
+     *
+     * @return
+     */
     @Override
     public int getSize() {
         return linkedList.getSize();

@@ -45,17 +45,28 @@ public class LinkedListQueueDummy<E> implements Queue<E> {
         this.size = size;
     }
 
+    /**
+     * 判斷佇列是否為空
+     *
+     * @return
+     */
     @Override
     public boolean isEmpty() {
         return getSize() == 0;
     }
 
+    /**
+     * 入隊操作
+     * 插入尾節點
+     *
+     * @param e
+     */
     @Override
     public void enqueue(E e) {
         if (isEmpty()) {
             tail = new Node(e);
             tail.next = null;
-            dummy.next = tail;
+            dummy.next = tail; // 更新dummy head
         } else {
             tail.next = new Node(e);
             tail = tail.next;
@@ -63,6 +74,12 @@ public class LinkedListQueueDummy<E> implements Queue<E> {
         setSize(getSize() + 1);
     }
 
+    /**
+     * 出隊操作
+     * 移除首節點
+     *
+     * @return
+     */
     @Override
     public E dequeue() {
         if (isEmpty()) {
@@ -70,7 +87,7 @@ public class LinkedListQueueDummy<E> implements Queue<E> {
         }
 
         Node retNode = dummy.next;
-        dummy.next = retNode.next;
+        dummy.next = retNode.next; // 更新dummy head
         retNode.next = null;
         setSize(getSize() - 1);
         if (getSize() == 0) {
@@ -79,12 +96,17 @@ public class LinkedListQueueDummy<E> implements Queue<E> {
         return retNode.value;
     }
 
+    /**
+     * 獲取首節點數值
+     *
+     * @return 首節點數值
+     */
     @Override
     public E getFront() {
         if (isEmpty()) {
             throw new IllegalArgumentException("Queue is empty");
         }
-        return dummy.next.value;
+        return dummy.next.value; // dummy.next即為首節點
     }
 
     @Override

@@ -93,7 +93,7 @@ public class Deque<E> {
     }
 
     /**
-     * 像頭部刪除元素
+     * 刪除頭部元素
      *
      * @return 欲刪除元素
      */
@@ -111,7 +111,7 @@ public class Deque<E> {
     }
 
     /**
-     * 向尾部刪除元素
+     * 刪除尾部元素
      *
      * @return 欲刪除元素
      */
@@ -147,7 +147,7 @@ public class Deque<E> {
         }
         data = newData;
         setFront(0);
-        setTail(size);
+        setTail(getSize());
     }
 
     /**

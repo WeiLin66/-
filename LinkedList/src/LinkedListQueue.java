@@ -1,3 +1,7 @@
+/**
+ * 使用帶有尾指標鏈表實現的佇列
+ */
+
 import java.util.LinkedList;
 
 public class LinkedListQueue<E> implements Queue<E> {
@@ -45,11 +49,22 @@ public class LinkedListQueue<E> implements Queue<E> {
         this.size = size;
     }
 
+    /**
+     * 判斷佇列是否為空
+     *
+     * @return 若為空則返回真
+     */
     @Override
     public boolean isEmpty() {
         return getSize() == 0;
     }
 
+    /**
+     * 入隊操作
+     * 將節點插入到尾節點
+     *
+     * @param e 節點數值
+     */
     @Override
     public void enqueue(E e) {
         if (isEmpty()) {
@@ -63,6 +78,12 @@ public class LinkedListQueue<E> implements Queue<E> {
         setSize(getSize() + 1);
     }
 
+    /**
+     * 出隊操作
+     * 將頭節點移除
+     *
+     * @return 返回頭節點數值
+     */
     @Override
     public E dequeue() {
         if (isEmpty()) {
@@ -79,6 +100,11 @@ public class LinkedListQueue<E> implements Queue<E> {
         return retNode.value;
     }
 
+    /**
+     * 獲取頭節點數值
+     *
+     * @return 頭節點數值
+     */
     @Override
     public E getFront() {
         if (isEmpty()) {
