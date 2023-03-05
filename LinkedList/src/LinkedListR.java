@@ -1,4 +1,8 @@
-public class LinkedListR<E> {
+/**
+ * 遞迴鏈表
+ */
+
+ public class LinkedListR<E> {
     private class Node {
         public E value;
         public Node next;
@@ -49,6 +53,14 @@ public class LinkedListR<E> {
         return getSize() == 0;
     }
 
+    /**
+     * 插入節點
+     *
+     * @param head 待處理鏈表的首節點
+     * @param index 節點位置
+     * @param value 節點數值
+     * @return 返回插入節點的前一個節點
+     */
     public Node add(Node head, int index, E value) {
         if (index == 0) {
             Node n = new Node(value, head);
@@ -78,6 +90,13 @@ public class LinkedListR<E> {
         return add(head, getSize(), value);
     }
 
+    /**
+     * 獲取節點數值
+     *
+     * @param head 待處理鏈表的首節點
+     * @param index 節點位置
+     * @return 指定節點數值
+     */
     public E get(Node head, int index) {
         if (index < 0 || index >= getSize()) {
             throw new IllegalArgumentException("Illegal index");
@@ -96,6 +115,13 @@ public class LinkedListR<E> {
         return get(head, getSize() - 1);
     }
 
+    /**
+     * 修改某節點數值
+     *
+     * @param head 待處理鏈表的首節點
+     * @param index 節點位置
+     * @param value 節點數值
+     */
     public void set(Node head, int index, E value) {
         if (index < 0 || index >= getSize()) {
             throw new IllegalArgumentException("Illegal index");
@@ -110,6 +136,13 @@ public class LinkedListR<E> {
         set(head.next, index - 1, value);
     }
 
+    /**
+     * 是否包含數值為value的節點
+     *
+     * @param head 待處理鏈表的首節點
+     * @param value 節點數值
+     * @return 若包含則返回真
+     */
     public boolean contains(Node head, E value) {
         if (isEmpty()) {
             throw new IllegalArgumentException("LinkedList is empty");
@@ -119,9 +152,20 @@ public class LinkedListR<E> {
             return false;
         }
 
-        return value.equals(head.value) || contains(head.next, value);
+        if(value.equals(head.value)){
+            return true;
+        }
+
+        return contains(head.next, value);
     }
 
+    /**
+     * 刪除指定節點
+     *
+     * @param head 待處理鏈表的首節點
+     * @param index 節點位置
+     * @return 刪除節點數值
+     */
     public E remove(Node head, int index) {
         if (isEmpty()) {
             throw new IllegalArgumentException("LinkedList is empty");

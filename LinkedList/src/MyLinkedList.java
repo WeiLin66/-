@@ -136,7 +136,7 @@ public class MyLinkedList<E> {
      * 是否包含數值為value的節點
      *
      * @param value 要搜尋的節點數值
-     * @return
+     * @return 若有包含則返回真
      */
     public boolean contains(E value) {
         for (Node cur = dummyHead.next; cur != null; cur = cur.next) {
