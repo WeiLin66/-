@@ -30,7 +30,14 @@ public class MergeSort {
         }
     }
 
-    // 底層實現
+    /**
+     * 基礎版本merge sort
+     *
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param <T>
+     */
     private static <T extends Comparable<T>> void mergeSort(T[] arr, int l, int r) {
         if (l >= r) {
             return;
@@ -42,6 +49,16 @@ public class MergeSort {
         merge1(arr, l, mid, r);
     }
 
+    /**
+     * 優化版本merge sort
+     * 小數據量時使用插入排序法優化
+     *
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param temp
+     * @param <T>
+     */
     private static <T extends Comparable<T>> void mergeSort2(T[] arr, int l, int r, T[] temp) {
         /* 當數量足夠少時，因為Merge Sort的常數項較大，所以使用Insertion Sort反而比較有利 */
         if (r - l <= 16) {
@@ -60,6 +77,10 @@ public class MergeSort {
 
     /**
      * 自底向上的Merge Sort
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param <T>
      */
     private static <T extends Comparable<T>> void mergeSort3(T[] arr, int l, int r) {
         T[] temp = Arrays.copyOf(arr, arr.length);
@@ -103,6 +124,12 @@ public class MergeSort {
 
     /**
      * 優化版本merge，防止在內存中重複創造陣列
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param mid 陣列中間index位置
+     * @param r 陣列終止位置
+     * @param temp 暫存陣列
+     * @param <T>
      */
     private static <T extends Comparable<T>> void merge2(T[] arr, int l, int mid, int r, T[] temp) {
         System.arraycopy(arr, l, temp, l, (r - l + 1));
