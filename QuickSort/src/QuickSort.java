@@ -39,7 +39,10 @@ public class QuickSort {
     }
 
     /**
-     * 第一版快速排序
+     * 基礎版快速排序
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
      */
     private static <T extends Comparable<T>> void quickSort(T[] arr, int l, int r) {
         if (l >= r) {
@@ -51,9 +54,15 @@ public class QuickSort {
         quickSort(arr, p + 1, r);
     }
 
+    /**
+     * 使用插入排序優化的快速排序
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     */
     private static <T extends Comparable<T>> void quickSort2(T[] arr, int l, int r) {
-        /* 使用插入排序優化快速排序 */
-        if (r - l <= 12) {
+        /* 使用插入排序 */
+        if (r - l <= 15) {
             InsertionSort.insertionSort(arr, l, r);
             return;
         }
@@ -64,11 +73,16 @@ public class QuickSort {
     }
 
     /**
-     * 優化目的是防止Quick Sort對有序陣列的O(n)時間複雜度
+     * 優化目的是防止Quick Sort對有序陣列產生O(n^2)的時間複雜度
+     *
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param rd 隨機類
      */
     private static <T extends Comparable<T>> void quickSort3(T[] arr, int l, int r, Random rd) {
         /* 使用插入排序優化快速排序 */
-        if (r - l <= 12) {
+        if (r - l <= 15) {
             InsertionSort.insertionSort(arr, l, r);
             return;
         }
@@ -81,6 +95,9 @@ public class QuickSort {
 
     /**
      * 使用中間取值作為partition的版本
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
      */
     private static <T extends Comparable<T>> void quickSort4(T[] arr, int l, int r) {
         if (l >= r) {
@@ -95,6 +112,11 @@ public class QuickSort {
     /**
      * 雙路快速排序，避免元素全部相同造成複雜度為O(n^2)問題
      * version 1
+     *
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param rd 隨機類
      */
     private static <T extends Comparable<T>> void quickSort2ways1(T[] arr, int l, int r, Random rd) {
         if (l >= r) {
@@ -109,6 +131,11 @@ public class QuickSort {
     /**
      * 雙路快速排序，避免元素全部相同造成複雜度為O(n^2)問題
      * version 2
+     *
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @param rd 隨機類
      */
     private static <T extends Comparable<T>> void quickSort2ways2(T[] arr, int l, int r, Random rd) {
         if (l >= r) {
@@ -122,6 +149,10 @@ public class QuickSort {
 
     /**
      * 三路快速排序，專門處理相陣列元素全部相同狀況
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列終止位置
+     * @param rd 隨機類
      */
     private static <T extends Comparable<T>> void quickSort3ways(T[] arr, int l, int r, Random rd) {
         if (l >= r) {
@@ -151,6 +182,13 @@ public class QuickSort {
         quickSort3ways(arr, gt, r, rd);
     }
 
+    /**
+     * 基礎版partition函式
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @return partition索引
+     */
     private static <T extends Comparable<T>> int partition(T[] arr, int l, int r) {
         int i = l;
         T p = arr[l];
@@ -173,6 +211,11 @@ public class QuickSort {
 
     /**
      * 使用隨機化優化快速排序
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @param rd 隨機類
+     * @return partition索引位置
      */
     private static <T extends Comparable<T>> int partition2(T[] arr, int l, int r, Random rd) {
         /* 將隨機選取的index與第一個元素交換，剩餘操作與一般partition相同 */
@@ -198,6 +241,10 @@ public class QuickSort {
 
     /**
      * 使用中間值當作partition
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @return partition位置索引
      */
     private static <T extends Comparable<T>> int partition3(T[] arr, int l, int r) {
         swap(arr, l, (r + l) / 2);
@@ -222,6 +269,11 @@ public class QuickSort {
 
     /**
      * 2 ways partition version 1
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @param rd 隨機類
+     * @return partition位置索引
      */
     private static <T extends Comparable<T>> int partition4(T[] arr, int l, int r, Random rd) {
         swap(arr, l, rd.nextInt(r - l + 1) + l);
@@ -244,6 +296,11 @@ public class QuickSort {
 
     /**
      * 2 ways partition version 2
+     * @param arr 數據陣列
+     * @param l 陣列起始位置
+     * @param r 陣列中止位置
+     * @param rd 隨機類
+     * @return partition位置索引
      */
     public static <T extends Comparable<T>> int partition5(T[] arr, int l, int r, Random rd) {
         int p = l + rd.nextInt(r - l + 1);
@@ -278,11 +335,12 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int n = 500000;
-        Integer[] arr = ArrayGenerator.intArrayGenerator(n, 1);
+        int n = 100000;
+        Integer[] arr = ArrayGenerator.generateOrderedArray(n, 100);
         Integer[] arr2 = Arrays.copyOf(arr, n);
-        SortingHelper.sortTest("3 Ways Quick Sort", arr);
-        SortingHelper.sortTest("2 Ways Quick Sort2", arr2);
+
+        SortingHelper.sortTest("Quick Sort2", arr);
+        SortingHelper.sortTest("Quick Sort3", arr2);
     }
 
 }

@@ -86,16 +86,19 @@ public class MergeSort {
         T[] temp = Arrays.copyOf(arr, arr.length);
         int n = arr.length;
 
-        /* 使用插入排序法進行優化，參數取值為10 */
-        for (int i = 0; i < n; i += 10) {
+        /* 使用插入排序法進行優化，參數取值為16 */
+        for (int i = 0; i < n; i += 16) {
             InsertionSort.insertionSort(arr, i, Math.min(i + 15, n - 1));
         }
 
-        /* 由於使用插入排序法，所以sz改為從20開始 */
-        for (int sz = 10; sz < n; sz += sz) {
-            /* merge [i ... i + sz - 1], [i + sz ... i + sz + sz - 1] */
-            for (int i = 0; i + sz < n; i = i + sz + sz) {
+        /* 遍歷合併的區間長度 */
+        /* 由於使用插入排序法，所以sz改為從16開始 */
+        for (int sz = 16; sz < n; sz += sz) {
+            /* 遍歷合併的兩個區間的起始位置 */
+            /* merge [i ... i + sz - 1], [i + sz ... Math.main(i + sz + sz - 1, n-1)] */
+            for (int i = 0; i + sz < n; i += + sz + sz) {
                 if (arr[i + sz - 1].compareTo(arr[i + sz]) > 0) {
+                    /* 越界問題，要考慮i+sz+sz-1是否會大於n-1 */
                     merge2(arr, i, i + sz - 1, Math.min(arr.length - 1, i + sz + sz - 1), temp);
                 }
             }
@@ -150,6 +153,8 @@ public class MergeSort {
     public static void main(String[] args) {
         int n = 100000;
         Integer[] arr = ArrayGenerator.intArrayGenerator(n, n);
+        Integer[] arr2 = Arrays.copyOf(arr, n);
         SortingHelper.sortTest("Merge Sort2", arr);
+        SortingHelper.sortTest("Merge Sort3", arr2);
     }
 }
