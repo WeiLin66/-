@@ -40,6 +40,7 @@ public class QuickSort {
 
     /**
      * 基礎版快速排序
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列終止位置
@@ -56,6 +57,7 @@ public class QuickSort {
 
     /**
      * 使用插入排序優化的快速排序
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列終止位置
@@ -95,6 +97,7 @@ public class QuickSort {
 
     /**
      * 使用中間取值作為partition的版本
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -149,6 +152,7 @@ public class QuickSort {
 
     /**
      * 三路快速排序，專門處理相陣列元素全部相同狀況
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列終止位置
@@ -184,6 +188,7 @@ public class QuickSort {
 
     /**
      * 基礎版partition函式
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -211,6 +216,7 @@ public class QuickSort {
 
     /**
      * 使用隨機化優化快速排序
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -241,6 +247,7 @@ public class QuickSort {
 
     /**
      * 使用中間值當作partition
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -269,6 +276,7 @@ public class QuickSort {
 
     /**
      * 2 ways partition version 1
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -277,6 +285,7 @@ public class QuickSort {
      */
     private static <T extends Comparable<T>> int partition4(T[] arr, int l, int r, Random rd) {
         swap(arr, l, rd.nextInt(r - l + 1) + l);
+        // arr[l+1...i-1] <= v; arr[j+1...r] >= v
         int i = l + 1;
         int j = r;
         while (i <= j) {
@@ -296,6 +305,7 @@ public class QuickSort {
 
     /**
      * 2 ways partition version 2
+     *
      * @param arr 數據陣列
      * @param l 陣列起始位置
      * @param r 陣列中止位置
@@ -305,6 +315,7 @@ public class QuickSort {
     public static <T extends Comparable<T>> int partition5(T[] arr, int l, int r, Random rd) {
         int p = l + rd.nextInt(r - l + 1);
         swap(arr, l, p);
+        // arr[l+1...i-1] <= v; arr[j+1...r] >= v
         int i = l + 1;
         int j = r;
         while (true) {
@@ -336,11 +347,11 @@ public class QuickSort {
 
     public static void main(String[] args) {
         int n = 100000;
-        Integer[] arr = ArrayGenerator.generateOrderedArray(n, 100);
+        Integer[] arr = ArrayGenerator.generateOrderedArray(n, 1);
         Integer[] arr2 = Arrays.copyOf(arr, n);
 
-        SortingHelper.sortTest("Quick Sort2", arr);
-        SortingHelper.sortTest("Quick Sort3", arr2);
+        SortingHelper.sortTest("3 Ways Quick Sort1", arr);
+        SortingHelper.sortTest("2 Ways Quick Sort2", arr2);
     }
 
 }
