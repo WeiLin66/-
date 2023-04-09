@@ -1,41 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#define MLL_DEBUG           1
-#define MLL_LOG(fmt,arg...) fprintf(stdout, "[My LinkedList Log] "fmt"\n", ##arg)
-#define MLL_ERR(fmt,arg...) fprintf(stderr, "[My LinkedList Error] "fmt"\n", ##arg)
-#define MLL_DBG(fmt,arg...) do{                                                                 \
-                                if(MLL_DEBUG){                                                  \
-                                    fprintf(stdout, "[Debug Mode] [%s][%s][%d] "fmt"\n",        \
-                                    __FILE__, __func__, __LINE__, ##arg);                       \
-                                }                                                               \
-                            }while(0);                                                          \
-
-#define INSERT(pre, new)    do{                                                                 \
-                                (new)->next = (pre)->next;                                      \
-                                (pre)->next = new;                                              \
-                            }while(0);
-#define REMOVE(pre, curr)   do{                                                                 \
-                                if(pre){                                                        \
-                                    (pre)->next = (curr)->next;                                 \
-                                }                                                               \
-                            }while(0);
-#define FREE_NODE(node)     do{                                                                 \
-                                if(node){                                                       \
-                                    (node)->next = NULL;                                        \
-                                    free(node);                                                 \
-                                }                                                               \
-                            }while(0);
-typedef struct node{
-    int data;
-    struct node* next;
-}myNode;
-
-/* helper functions */
-myNode* createNode(int val, myNode* next); // 返回創建節點
-int length(myNode* node); // 打印鏈表長度
-void printList(myNode* node); // 打印鏈表信息
-void pushNode(myNode** headRef, int newDate); // 創建新節點並插入頭部
+#include "linkedlist.h"
 
 myNode* createNode(int val, myNode* next){
 
@@ -46,7 +9,7 @@ myNode* createNode(int val, myNode* next){
     return newNode;
 }
 
-int length(myNode* node){
+static int length(myNode* node){
 
     int len=0;
 
@@ -847,20 +810,4 @@ void reverseR2(myNode** headRef){
     first->next->next = first;
     first->next = NULL;
     *headRef = rest; 
-}
-
-int main(int argc, int* argv[]){
-
-    myNode* root1 = createNode(6, NULL);
-    pushNode(&root1, 5);
-    pushNode(&root1, 4);
-    pushNode(&root1, 3);
-    pushNode(&root1, 2);
-    pushNode(&root1, 1);
-    printList(root1);
-
-    reverseR2(&root1);
-    printList(root1);
-
-    return 0;
 }
