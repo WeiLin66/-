@@ -1,6 +1,6 @@
 #include "linkedlist.h"
 
-myNode* createNode(int val, myNode* next){
+myNode* mll_createNode(int val, myNode* next){
 
     myNode* newNode = malloc(sizeof(myNode));
     newNode->next = next;
@@ -9,7 +9,7 @@ myNode* createNode(int val, myNode* next){
     return newNode;
 }
 
-static int length(myNode* node){
+int length(myNode* node){
 
     int len=0;
 
@@ -22,7 +22,7 @@ static int length(myNode* node){
     return len;
 }
 
-void printList(myNode* node){
+void mll_printList(myNode* node){
 
     while(node){
         printf("node [%d] --> ", node->data);
@@ -32,17 +32,17 @@ void printList(myNode* node){
     printf("NULL\n");
 }
 
-void pushNode(myNode** headRef, int newDate){
+void mll_pushNode(myNode** headRef, int newDate){
 
     if(headRef == NULL){
         return;
     }
 
-    myNode* newNode = createNode(newDate, (*headRef));
+    myNode* newNode = mll_createNode(newDate, (*headRef));
     *headRef = newNode;
 }
 
-int countNode(myNode* node, int val){
+int mll_countNode(myNode* node, int val){
 
     int cnt=0;
 
@@ -54,7 +54,7 @@ int countNode(myNode* node, int val){
     return cnt;
 }
 
-int countNodeR(myNode* node, int val, int cnt){
+int mll_countNodeR(myNode* node, int val, int cnt){
 
     if(node == NULL){
         return cnt;
@@ -62,10 +62,10 @@ int countNodeR(myNode* node, int val, int cnt){
 
     cnt = node->data == val ? cnt+1 : cnt;
 
-    return countNodeR(node->next, val, cnt);
+    return mll_countNodeR(node->next, val, cnt);
 }
 
-int getNth(myNode* node, int n){
+int mll_getNth(myNode* node, int n){
 
     for(int i=0; i<n; i++){
 
@@ -84,7 +84,7 @@ int getNth(myNode* node, int n){
     return node->data;
 }
 
-int getNthR(myNode* node, int n){
+int mll_getNthR(myNode* node, int n){
 
     n = n < 0 ? 0 : n;
 
@@ -97,10 +97,10 @@ int getNthR(myNode* node, int n){
         return node->data;
     }
 
-    return getNthR(node->next, --n);
+    return mll_getNthR(node->next, --n);
 }
 
-void deleteList(myNode** headRef){
+void mll_deleteList(myNode** headRef){
     
     if(headRef == NULL){
         return;
@@ -131,7 +131,7 @@ static void releaseNode(myNode* node){
     free(node);
 }
 
-void deleteListR(myNode** headRef){
+void mll_deleteListR(myNode** headRef){
     
     if(headRef == NULL){
         return;
@@ -141,7 +141,7 @@ void deleteListR(myNode** headRef){
     *headRef = NULL;
 }
 
-int popNode(myNode** headRef){
+int mll_popNode(myNode** headRef){
 
     if(headRef == NULL){
         return -1;
@@ -161,14 +161,14 @@ int popNode(myNode** headRef){
     return ret;
 }
 
-void insertNth(myNode** headref, int index, int data){
+void mll_insertNth(myNode** headref, int index, int data){
 
     if(index < 0){
         return;
     }
 
-    myNode* dummy = createNode(-1, *headref);
-    myNode* newNode = createNode(data, NULL);
+    myNode* dummy = mll_createNode(-1, *headref);
+    myNode* newNode = mll_createNode(data, NULL);
     myNode* ptr = dummy;
 
     for(int i=0; i<index; i++){
@@ -187,10 +187,10 @@ void insertNth(myNode** headref, int index, int data){
     FREE_NODE(dummy);
 }
 
-static myNode* insertR(myNode* node, int index, int data){
+static myNode* mll_insertR(myNode* node, int index, int data){
 
     if(index == 0){
-        return createNode(data, node);
+        return mll_createNode(data, node);
     }
 
     if(node == NULL){
@@ -198,27 +198,27 @@ static myNode* insertR(myNode* node, int index, int data){
         return NULL;
     }
 
-    node->next = insertR(node->next, index-1, data);
+    node->next = mll_insertR(node->next, index-1, data);
 
     return node;
 }
 
-void insertNthR(myNode** headref, int index, int data){
+void mll_insertNthR(myNode** headref, int index, int data){
 
     if(index < 0){
         return;
     }
 
-    *headref = insertR(*headref, index, data);
+    *headref = mll_insertR(*headref, index, data);
 }
 
-void sortedInsert(myNode** headRef, myNode* newNode){
+void mll_sortedInsert(myNode** headRef, myNode* newNode){
 
     if(headRef == NULL || newNode == NULL){
         return;
     }
 
-    myNode* dummy = createNode(-1, *headRef);
+    myNode* dummy = mll_createNode(-1, *headRef);
     myNode* pre = dummy;
     myNode* curr = dummy->next;
 
@@ -240,7 +240,7 @@ void sortedInsert(myNode** headRef, myNode* newNode){
     FREE_NODE(dummy);
 }
 
-void sortedInsert2(myNode** headRef, myNode* newNode){
+void mll_sortedInsert2(myNode** headRef, myNode* newNode){
 
     if(headRef == NULL || newNode == NULL){
         return;
@@ -275,7 +275,7 @@ static myNode* sortedR(myNode* node, myNode* newNode){
     return node;
 }
 
-void sortedInsertR(myNode** headRef, myNode* newNode){
+void sortedmll_insertR(myNode** headRef, myNode* newNode){
 
     if(headRef == NULL || newNode == NULL){
         return;
@@ -284,13 +284,13 @@ void sortedInsertR(myNode** headRef, myNode* newNode){
     *headRef = sortedR(*headRef, newNode);
 }
 
-void insertSort(myNode** headRef){
+void mll_insertSort(myNode** headRef){
 
     if(headRef == NULL){
         return;
     }
 
-    myNode* dummy = createNode(-1, *headRef);
+    myNode* dummy = mll_createNode(-1, *headRef);
     myNode* pre = dummy;
     myNode* curr = *headRef;
 
@@ -299,7 +299,7 @@ void insertSort(myNode** headRef){
         if(curr->next && curr->data > curr->next->data){
             *headRef = curr == *headRef ? curr->next : *headRef;
             REMOVE(pre, curr);
-            sortedInsert(headRef, curr);
+            mll_sortedInsert(headRef, curr);
             pre = dummy;
             curr = *headRef;
         }else{
@@ -311,7 +311,7 @@ void insertSort(myNode** headRef){
     FREE_NODE(dummy);
 }
 
-void insertSort2(myNode** headRef){
+void mll_insertSort2(myNode** headRef){
 
     if(headRef == NULL){
         return;
@@ -324,14 +324,14 @@ void insertSort2(myNode** headRef){
     while (curr){
         
         next = curr->next;
-        sortedInsert2(&result, curr);
+        mll_sortedInsert2(&result, curr);
         curr = next;
     }
 
     *headRef = result;
 }
 
-void append(myNode** aRef, myNode** bRef){
+void mll_append(myNode** aRef, myNode** bRef){
 
     if(aRef == NULL || bRef == NULL){
         return;
@@ -350,7 +350,7 @@ void append(myNode** aRef, myNode** bRef){
     *bRef = NULL;
 }
 
-void frontBackSplit(myNode* source, myNode** frontRef, myNode** backRef){
+void mll_frontBackSplit(myNode* source, myNode** frontRef, myNode** backRef){
 
     if(source == NULL || frontRef == NULL || backRef == NULL){
         return;
@@ -378,7 +378,7 @@ void frontBackSplit(myNode* source, myNode** frontRef, myNode** backRef){
     ptr->next = NULL;
 }
 
-void frontBackSplit2(myNode* source, myNode** frontRef, myNode** backRef){
+void mll_frontBackSplit2(myNode* source, myNode** frontRef, myNode** backRef){
 
     if(source == NULL || frontRef == NULL || backRef == NULL){
         return;
@@ -400,7 +400,7 @@ void frontBackSplit2(myNode* source, myNode** frontRef, myNode** backRef){
     }
 }
 
-void frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef){
+void mll_frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef){
 
     if(source == NULL || frontRef == NULL || backRef == NULL){
         return;
@@ -426,7 +426,7 @@ void frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef){
     }
 }
 
-void RemoveDuplicates(myNode* node){
+void mll_RemoveDuplicates(myNode* node){
 
     if(node == NULL){
         return;
@@ -463,7 +463,7 @@ static myNode* removeDuplicateNode(myNode* prenode, myNode* node){
     return node;
 }
 
-void RemoveDuplicatesR(myNode* node){
+void mll_RemoveDuplicatesR(myNode* node){
 
     if(node == NULL){
         return;
@@ -472,7 +472,7 @@ void RemoveDuplicatesR(myNode* node){
     node->next = removeDuplicateNode(node, node->next);
 }
 
-void moveNode(myNode** destRef, myNode** sourceRef){
+void mll_moveNode(myNode** destRef, myNode** sourceRef){
 
     if(destRef == NULL || sourceRef == NULL){
         return;
@@ -488,7 +488,7 @@ void moveNode(myNode** destRef, myNode** sourceRef){
     *sourceRef = dummy2.next;
 }
 
-void alternatingSplit(myNode* source, myNode** aRef, myNode** bRef){
+void mll_alternatingSplit(myNode* source, myNode** aRef, myNode** bRef){
 
     if(source == NULL || aRef == NULL || bRef == NULL){
         return;
@@ -499,11 +499,11 @@ void alternatingSplit(myNode* source, myNode** aRef, myNode** bRef){
     while(source){
 
         list = (source->data & 0x1) ? bRef : aRef;
-        moveNode(list, &source);
+        mll_moveNode(list, &source);
     }
 }
 
-myNode* shuffleMerge(myNode* a, myNode* b){
+myNode* mll_shuffleMerge(myNode* a, myNode* b){
 
     myNode dummy = {-1, NULL};
     myNode* ptr = &dummy;
@@ -531,7 +531,7 @@ myNode* shuffleMerge(myNode* a, myNode* b){
     return dummy.next;
 }
 
-myNode* shuffleMerge2(myNode* a, myNode* b){
+myNode* mll_shuffleMerge2(myNode* a, myNode* b){
 
     myNode dummy = {-1, NULL};
     myNode* ptr = &dummy;
@@ -545,10 +545,10 @@ myNode* shuffleMerge2(myNode* a, myNode* b){
             ptr->next = a;
             break;
         }else{
-            moveNode(&(ptr->next), &a);
+            mll_moveNode(&(ptr->next), &a);
             ptr = ptr->next;
 
-            moveNode(&(ptr->next), &b);
+            mll_moveNode(&(ptr->next), &b);
             ptr = ptr->next;
         }
     }
@@ -556,7 +556,7 @@ myNode* shuffleMerge2(myNode* a, myNode* b){
     return dummy.next;
 }
 
-myNode* shuffleMerge3(myNode* a, myNode* b){
+myNode* mll_shuffleMerge3(myNode* a, myNode* b){
 
     myNode* result = NULL;
     myNode** ptr = &result;
@@ -570,10 +570,10 @@ myNode* shuffleMerge3(myNode* a, myNode* b){
             *ptr = a;
             break;
         }else{
-            moveNode(ptr, &a);
+            mll_moveNode(ptr, &a);
             ptr = &((*ptr)->next);
 
-            moveNode(ptr, &b);
+            mll_moveNode(ptr, &b);
             ptr = &((*ptr)->next);
         }
     }
@@ -581,7 +581,7 @@ myNode* shuffleMerge3(myNode* a, myNode* b){
     return result;
 }
 
-myNode* shuffleMergeR(myNode* a, myNode* b){
+myNode* mll_shuffleMergeR(myNode* a, myNode* b){
 
     if(a == NULL){
         return b;
@@ -591,14 +591,14 @@ myNode* shuffleMergeR(myNode* a, myNode* b){
         return a;
     }
 
-    myNode* ret = shuffleMergeR(a->next, b->next);
+    myNode* ret = mll_shuffleMergeR(a->next, b->next);
     a->next = b;
     b->next = ret;
 
     return a;
 }
 
-myNode* sortedMerge(myNode* a, myNode* b){
+myNode* mll_sortedMerge(myNode* a, myNode* b){
 
     myNode dummy = {-1, NULL};
     myNode* ptr = &dummy;
@@ -614,7 +614,7 @@ myNode* sortedMerge(myNode* a, myNode* b){
             break;
         }else{
             target = a->data < b->data ? &a : &b;
-            moveNode(&(ptr->next), target);
+            mll_moveNode(&(ptr->next), target);
             ptr = ptr->next;
         }
     }
@@ -622,7 +622,7 @@ myNode* sortedMerge(myNode* a, myNode* b){
     return dummy.next;
 }
 
-myNode* sortedMerge2(myNode* a, myNode* b){
+myNode* mll_sortedMerge2(myNode* a, myNode* b){
 
     myNode* result = NULL;
     myNode** target;
@@ -638,7 +638,7 @@ myNode* sortedMerge2(myNode* a, myNode* b){
             break;
         }else{
             target = a->data < b->data ? &a : &b;
-            moveNode(ptr, target);
+            mll_moveNode(ptr, target);
             ptr = &((*ptr)->next);
         }
     }
@@ -646,7 +646,7 @@ myNode* sortedMerge2(myNode* a, myNode* b){
     return result;
 }
 
-myNode* sortedMergeR(myNode* a, myNode* b){
+myNode* mll_sortedMergeR(myNode* a, myNode* b){
 
     if(a == NULL){
         return b;
@@ -657,15 +657,15 @@ myNode* sortedMergeR(myNode* a, myNode* b){
     }
 
     if(a->data < b->data){
-        a->next = sortedMergeR(a->next, b);
+        a->next = mll_sortedMergeR(a->next, b);
         return a;
     }
 
-    b->next = sortedMergeR(a, b->next);
+    b->next = mll_sortedMergeR(a, b->next);
     return b;
 }
 
-void mergeSort(myNode** headRef){
+void mll_mergeSort(myNode** headRef){
 
     if(headRef == NULL || *headRef == NULL){
         return;
@@ -677,15 +677,15 @@ void mergeSort(myNode** headRef){
 
     myNode* left, *right;
 
-    frontBackSplit(*headRef, &left, &right);
+    mll_frontBackSplit(*headRef, &left, &right);
     
-    mergeSort(&left);
-    mergeSort(&right);
+    mll_mergeSort(&left);
+    mll_mergeSort(&right);
     
-    *headRef = sortedMerge(left, right);
+    *headRef = mll_sortedMerge(left, right);
 }
 
-myNode* SortedIntersect(myNode* a, myNode* b){
+myNode* mll_SortedIntersect(myNode* a, myNode* b){
 
     myNode dummy = {-1, NULL};
     myNode* ptr = &dummy;
@@ -697,7 +697,7 @@ myNode* SortedIntersect(myNode* a, myNode* b){
         }else if(a->data < b->data){
             a = a->next;
         }else{
-            ptr->next = createNode(a->data, NULL);
+            ptr->next = mll_createNode(a->data, NULL);
             ptr = ptr->next;
 
             a = a->next;
@@ -708,7 +708,7 @@ myNode* SortedIntersect(myNode* a, myNode* b){
     return dummy.next;
 }
 
-myNode* SortedIntersect2(myNode* a, myNode* b){
+myNode* mll_SortedIntersect2(myNode* a, myNode* b){
 
     myNode* ret=NULL;
     myNode** ptr = &ret;
@@ -720,7 +720,7 @@ myNode* SortedIntersect2(myNode* a, myNode* b){
         }else if(a->data < b->data){
             a = a->next;
         }else{
-            pushNode(ptr, a->data);
+            mll_pushNode(ptr, a->data);
             ptr = &((*ptr)->next);
 
             a = a->next;
@@ -731,7 +731,7 @@ myNode* SortedIntersect2(myNode* a, myNode* b){
     return ret;
 }
 
-myNode* SortedIntersectR(myNode* a, myNode* b){
+myNode* mll_SortedIntersectR(myNode* a, myNode* b){
 
     if(a == NULL || b == NULL){
         return NULL;
@@ -740,18 +740,18 @@ myNode* SortedIntersectR(myNode* a, myNode* b){
     myNode* ret;
 
     if(a->data > b->data){
-        ret = SortedIntersectR(a, b->next);
+        ret = mll_SortedIntersectR(a, b->next);
     }else if(a->data < b->data){
-        ret = SortedIntersectR(a->next, b);
+        ret = mll_SortedIntersectR(a->next, b);
     }else{
-        ret = createNode(a->data, NULL);
-        ret->next = SortedIntersectR(a->next, b->next);
+        ret = mll_createNode(a->data, NULL);
+        ret->next = mll_SortedIntersectR(a->next, b->next);
     }
 
     return ret;
 }
 
-void reverse(myNode** headRef){
+void mll_reverse(myNode** headRef){
 
     if(headRef == NULL || *headRef == NULL){
         return;
@@ -772,7 +772,7 @@ void reverse(myNode** headRef){
     *headRef = curr;
 }
 
-void reverseR(myNode** headRef){
+void mll_reverseR(myNode** headRef){
 
     if(headRef == NULL || (*headRef) == NULL){
         return;
@@ -786,13 +786,13 @@ void reverseR(myNode** headRef){
     myNode* next = curr->next;
     *headRef = next;
 
-    reverseR(headRef);
+    mll_reverseR(headRef);
 
     next->next = curr;
     curr->next = NULL;
 }
 
-void reverseR2(myNode** headRef){
+void mll_reverseR2(myNode** headRef){
 
     if(headRef == NULL || (*headRef) == NULL){
         return;
@@ -805,7 +805,7 @@ void reverseR2(myNode** headRef){
         return;
     }
 
-    reverseR2(&rest);
+    mll_reverseR2(&rest);
 
     first->next->next = first;
     first->next = NULL;

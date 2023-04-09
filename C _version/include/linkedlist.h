@@ -35,49 +35,47 @@ typedef struct node{
 }myNode;
 
 /* helper functions */
-myNode* createNode(int val, myNode* next); // 返回創建節點
-int length(myNode* node); // 打印鏈表長度
-void printList(myNode* node); // 打印鏈表信息
-void pushNode(myNode** headRef, int newDate); // 創建新節點並插入頭部
+myNode* mll_createNode(int val, myNode* next);
+int length(myNode* node);
+void mll_printList(myNode* node);
+void mll_pushNode(myNode** headRef, int newDate);
 
-myNode* createNode(int val, myNode* next);
-void printList(myNode* node);
-void pushNode(myNode** headRef, int newDate);
-int countNode(myNode* node, int val);
-int countNodeR(myNode* node, int val, int cnt);
-int getNth(myNode* node, int n);
-int getNthR(myNode* node, int n);
-void deleteList(myNode** headRef);
-void deleteListR(myNode** headRef);
-int popNode(myNode** headRef);
-void insertNth(myNode** headref, int index, int data);
-void insertNthR(myNode** headref, int index, int data);
-void sortedInsert(myNode** headRef, myNode* newNode);
-void sortedInsert2(myNode** headRef, myNode* newNode);
-void sortedInsertR(myNode** headRef, myNode* newNode);
-void insertSort(myNode** headRef);
-void insertSort2(myNode** headRef);
-void append(myNode** aRef, myNode** bRef);
-void frontBackSplit(myNode* source, myNode** frontRef, myNode** backRef);
-void frontBackSplit2(myNode* source, myNode** frontRef, myNode** backRef);
-void frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef);
-void RemoveDuplicates(myNode* node);
-void RemoveDuplicatesR(myNode* node);
-void moveNode(myNode** destRef, myNode** sourceRef);
-void alternatingSplit(myNode* source, myNode** aRef, myNode** bRef);
-myNode* shuffleMerge(myNode* a, myNode* b);
-myNode* shuffleMerge2(myNode* a, myNode* b);
-myNode* shuffleMerge3(myNode* a, myNode* b);
-myNode* shuffleMergeR(myNode* a, myNode* b);
-myNode* sortedMerge(myNode* a, myNode* b);
-myNode* sortedMerge2(myNode* a, myNode* b);
-myNode* sortedMergeR(myNode* a, myNode* b);
-void mergeSort(myNode** headRef);
-myNode* SortedIntersect(myNode* a, myNode* b);
-myNode* SortedIntersect2(myNode* a, myNode* b);
-myNode* SortedIntersectR(myNode* a, myNode* b);
-void reverse(myNode** headRef);
-void reverseR(myNode** headRef);
-void reverseR2(myNode** headRef);
+void mll_pushNode(myNode** headRef, int newDate);
+int mll_countNode(myNode* node, int val);
+int mll_countNodeR(myNode* node, int val, int cnt);
+int mll_getNth(myNode* node, int n);
+int mll_getNthR(myNode* node, int n);
+void mll_deleteList(myNode** headRef);
+void mll_deleteListR(myNode** headRef);
+int mll_popNode(myNode** headRef);
+void mll_insertNth(myNode** headref, int index, int data);
+void mll_insertNthR(myNode** headref, int index, int data);
+void mll_sortedInsert(myNode** headRef, myNode* newNode);
+void mll_sortedInsert2(myNode** headRef, myNode* newNode);
+void sortedmll_insertR(myNode** headRef, myNode* newNode);
+void mll_insertSortDummy(myNode** headRef);
+void mll_mll_insertSort2(myNode** headRef);
+void mll_append(myNode** aRef, myNode** bRef);
+void mll_frontBackSplit(myNode* source, myNode** frontRef, myNode** backRef);
+void mll_frontBackSplit2(myNode* source, myNode** frontRef, myNode** backRef);
+void mll_frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef);
+void mll_RemoveDuplicates(myNode* node);
+void mll_RemoveDuplicatesR(myNode* node);
+void mll_moveNode(myNode** destRef, myNode** sourceRef);
+void mll_alternatingSplit(myNode* source, myNode** aRef, myNode** bRef);
+myNode* mll_shuffleMerge(myNode* a, myNode* b);
+myNode* mll_shuffleMerge2(myNode* a, myNode* b);
+myNode* mll_shuffleMerge3(myNode* a, myNode* b);
+myNode* mll_shuffleMergeR(myNode* a, myNode* b);
+myNode* mll_sortedMerge(myNode* a, myNode* b);
+myNode* mll_sortedMerge2(myNode* a, myNode* b);
+myNode* mll_sortedMergeR(myNode* a, myNode* b);
+void mll_mergeSort(myNode** headRef);
+myNode* mll_SortedIntersect(myNode* a, myNode* b);
+myNode* mll_SortedIntersect2(myNode* a, myNode* b);
+myNode* mll_SortedIntersectR(myNode* a, myNode* b);
+void mll_reverse(myNode** headRef);
+void mll_reverseR(myNode** headRef);
+void mll_reverseR2(myNode** headRef);
 
 #endif /* __LINKEDLIST_H_ */
