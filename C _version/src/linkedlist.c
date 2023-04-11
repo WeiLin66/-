@@ -187,6 +187,35 @@ void mll_insertNth(myNode** headref, int index, int data){
     FREE_NODE(dummy);
 }
 
+void mll_insertNth2(myNode** headref, myNode** tailref, int index, int data){
+
+    if(index < 0){
+        return;
+    }
+
+    myNode* dummy = mll_createNode(-1, *headref);
+    myNode* newNode = mll_createNode(data, NULL);
+    myNode* ptr = dummy;
+
+    for(int i=0; i<index; i++){
+        ptr = ptr->next;
+        
+        if(ptr == NULL){
+            MLL_ERR("Fatal Error, Wrong index.");
+            return;
+        }
+    }
+
+    newNode->next = ptr->next;
+    ptr->next = newNode;
+    *headref = dummy->next;
+    if(tailref){
+        *tailref = newNode;
+    }
+
+    FREE_NODE(dummy);
+}
+
 static myNode* mll_insertR(myNode* node, int index, int data){
 
     if(index == 0){
@@ -275,7 +304,7 @@ static myNode* sortedR(myNode* node, myNode* newNode){
     return node;
 }
 
-void sortedmll_insertR(myNode** headRef, myNode* newNode){
+void mll_sortedInsertR(myNode** headRef, myNode* newNode){
 
     if(headRef == NULL || newNode == NULL){
         return;

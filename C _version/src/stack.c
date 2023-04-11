@@ -7,6 +7,7 @@
 static void as_resize(myStack_p stack, int capacity){
 
     assert(stack);
+    assert(stack->buffer);
 
     stack->buffer = realloc(stack->buffer,capacity*sizeof(int));
 
@@ -28,6 +29,7 @@ myStack_p as_createStack(){
 void as_stackPrinter(myStack_p stack){
 
     assert(stack);
+    assert(stack->buffer);
 
     printf("[");
     for(int i=0; i<stack->size; ++i){
@@ -39,9 +41,10 @@ void as_stackPrinter(myStack_p stack){
     printf("] <--- top [capacity: %d, size: %d]\n",stack->capacity,stack->size);
 }
 
-void as_enqueue(myStack_p stack, int value){
+void as_push(myStack_p stack, int value){
 
     assert(stack);
+    assert(stack->buffer);
 
     if(stack->size == stack->capacity){
         as_resize(stack,stack->capacity<<1);
@@ -52,11 +55,12 @@ void as_enqueue(myStack_p stack, int value){
     ++(stack->size);
 }
 
-int* as_dequeue(myStack_p stack){
+int* as_pop(myStack_p stack){
 
     assert(stack);
+    assert(stack->buffer);
 
-    if(as_isEmpty(stack)){
+    if(as_isStackEmpty(stack)){
         return NULL;
     }
 
@@ -69,29 +73,30 @@ int* as_dequeue(myStack_p stack){
     return stack->buffer+stack->size;
 }
 
-int* as_getFront(myStack_p stack){
+int* as_peek(myStack_p stack){
 
     assert(stack);
+    assert(stack->buffer);
 
-    if(as_isEmpty(stack)){
+    if(as_isStackEmpty(stack)){
         return NULL;
     }
 
     return stack->buffer+(stack->size-1);
 }
 
-int as_getSize(myStack_p stack){
+int as_getStackSize(myStack_p stack){
 
     assert(stack);
 
     return stack->size;
 }
 
-bool as_isEmpty(myStack_p stack){
+bool as_isStackEmpty(myStack_p stack){
 
     assert(stack);
 
-    return as_getSize(stack) == 0;
+    return as_getStackSize(stack) == 0;
 }
 
 void as_freeStack(myStack_p* stack){
@@ -115,7 +120,7 @@ void as_freeStack(myStack_p* stack){
 myStack_p ll_createStack(){
 
     myStack_p ret = malloc(sizeof(myStack));
-    ret->dummy = mll_createNode(-1,NULL);
+    ret->root = mll_createNode(-1,NULL);
     ret->size = 0;
 
     return ret;
@@ -125,7 +130,7 @@ void ll_stackPrinter(myStack_p stack){
 
     assert(stack);
 
-    myNode* node = stack->dummy->next;
+    myNode* node = stack->root->next;
     printf("[");
     while(node){
         printf("%d", node->data);
@@ -137,54 +142,49 @@ void ll_stackPrinter(myStack_p stack){
     printf("] <--- top [size: %d]\n",stack->size);
 }
 
-void ll_enqueue(myStack_p stack, int value){
+void ll_push(myStack_p stack, int value){
 
     assert(stack);
-    myNode* newNode = mll_createNode(value,stack->dummy->next);
-    stack->dummy->next = newNode;
+    assert(stack->root);
+    mll_pushNode(&(stack->root->next),value);
     ++(stack->size);
 }
 
-int ll_dequeue(myStack_p stack){
+int ll_pop(myStack_p stack){
 
     assert(stack);
 
-    if(ll_isEmpty(stack)){
+    if(ll_isStackEmpty(stack)){
         MLL_DBG("Stack is Empty!");
         return -1;
     }
 
-    myNode* node = stack->dummy->next;
-    int ret = node->data;
-    stack->dummy->next = stack->dummy->next->next;
+    int ret = mll_popNode(&(stack->root->next));
     --(stack->size);
-    
-    node->next = NULL;
-    free(node);
 
     return ret;
 }
 
-int ll_getFront(myStack_p stack){
+int ll_peek(myStack_p stack){
 
     assert(stack);
 
-    if(ll_isEmpty(stack)){
+    if(ll_isStackEmpty(stack)){
         MLL_DBG("Stack is Empty!");
         return -1;
     }
 
-    return stack->dummy->next->data;
+    return stack->root->next->data;
 }
 
-int ll_getSize(myStack_p stack){
+int ll_getStackSize(myStack_p stack){
 
     assert(stack);
 
     return stack->size;
 }
 
-bool ll_isEmpty(myStack_p stack){
+bool ll_isStackEmpty(myStack_p stack){
 
     assert(stack);
 
@@ -195,8 +195,8 @@ void ll_freeStack(myStack_p* stack){
 
     assert(stack);
 
-    myNode* pre = (*stack)->dummy;
-    myNode* curr = (*stack)->dummy->next;
+    myNode* pre = (*stack)->root;
+    myNode* curr = (*stack)->root->next;
 
     while(curr){
 
