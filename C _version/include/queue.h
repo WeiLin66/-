@@ -7,26 +7,26 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define __DYNAMIC_ARRAY		0
-#define __LINKED_LIST		1
-#define QUEUE_BASE			__LINKED_LIST
+#define __DYNAMIC_ARRAY     0
+#define __LINKED_LIST       1
+#define QUEUE_BASE          __LINKED_LIST
 
 #if (QUEUE_BASE == __DYNAMIC_ARRAY)
-#define MAX_QUEUE_SIZE				256
-#define CREATE_QUEUE(name)			myQueue_p name=aq_createQueue()
-#define QUEUE_PRINTER(queue)		aq_queuePrinter(queue)
-#define ENQUEUE(queue,value)		aq_enqueue(queue,value)
-#define DEQUEUE(queue)				aq_dequeue(queue)
-#define QUEUE_GET_FRONT(queue)		aq_queueGetFront(queue)
-#define QUEUE_GET_SIZE(queue)		aq_queueGetSize(queue)
-#define QUEUE_IS_EMPTY(queue)		aq_queueIsEmpty(queue)
-#define FREE_QUEUE(queue)			aq_freeQueue(&queue)
+#define MAX_QUEUE_SIZE              256
+#define CREATE_QUEUE(name)          myQueue_p name=aq_createQueue()
+#define QUEUE_PRINTER(queue)        aq_queuePrinter(queue)
+#define ENQUEUE(queue,value)        aq_enqueue(queue,value)
+#define DEQUEUE(queue)              aq_dequeue(queue)
+#define QUEUE_GET_FRONT(queue)      aq_queueGetFront(queue)
+#define QUEUE_GET_SIZE(queue)       aq_queueGetSize(queue)
+#define QUEUE_IS_EMPTY(queue)       aq_queueIsEmpty(queue)
+#define FREE_QUEUE(queue)           aq_freeQueue(&queue)
 
 typedef struct{
-	int* buffer;
-	int front;
-	int tail;
-	int capacity;
+    int* buffer;
+    int front;
+    int tail;
+    int capacity;
 }myQueue;
 typedef myQueue* myQueue_p;
 
@@ -41,19 +41,19 @@ void aq_freeQueue(myQueue_p* queue);
 
 #else /* QUEUE_BASE == __LINKED_LIST */
 #include "linkedlist.h"
-#define CREATE_QUEUE(name)			myQueue_p name=ll_createQueue()
-#define QUEUE_PRINTER(queue)		ll_queuePrinter(queue)
-#define ENQUEUE(queue,value)		ll_enqueue(queue,value)
-#define DEQUEUE(queue)				ll_dequeue(queue)
-#define QUEUE_GET_FRONT(queue)		ll_queueGetFront(queue)
-#define QUEUE_GET_SIZE(queue)		ll_queueGetSize(queue)
-#define QUEUE_IS_EMPTY(queue)		ll_queueIsEmpty(queue)
-#define FREE_QUEUE(queue)			ll_freeQueue(&queue);
+#define CREATE_QUEUE(name)          myQueue_p name=ll_createQueue()
+#define QUEUE_PRINTER(queue)        ll_queuePrinter(queue)
+#define ENQUEUE(queue,value)        ll_enqueue(queue,value)
+#define DEQUEUE(queue)              ll_dequeue(queue)
+#define QUEUE_GET_FRONT(queue)      ll_queueGetFront(queue)
+#define QUEUE_GET_SIZE(queue)       ll_queueGetSize(queue)
+#define QUEUE_IS_EMPTY(queue)       ll_queueIsEmpty(queue)
+#define FREE_QUEUE(queue)           ll_freeQueue(&queue);
 
 typedef struct{
-	myNode* root;
-	myNode* tail;
-	int size;
+    myNode* root;
+    myNode* tail;
+    int size;
 }myQueue;
 typedef myQueue* myQueue_p;
 
