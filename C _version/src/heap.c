@@ -1,5 +1,14 @@
 #include "heap.h"
 
+static void hp_resize(myHeap_p heap, int capacity){
+
+    assert(heap);
+    assert(heap->buffer);
+
+    heap->buffer = realloc(heap->buffer,sizeof(int)*capacity);
+    heap->capacity = capacity;
+}
+
 static __inline int hp_parent(int index){
 
     assert(index);
@@ -93,6 +102,51 @@ myHeap_p hp_createHeap(){
     myHeap_p ret = malloc(sizeof(myHeap));
     ret->buffer = malloc(sizeof(int)*MAX_HEAP_SIZE);
     ret->size = 0;
+    ret->capacity = MAX_HEAP_SIZE;
+
+    return ret;
+}
+
+myHeap_p hp_maxHeapify(int* arr, int len){
+
+    assert(arr);
+
+    myHeap_p ret = hp_createHeap();
+
+    if(len > ret->capacity){
+        int size = (len/ret->capacity+1)*MAX_HEAP_SIZE;
+        hp_resize(ret,size);
+    }
+
+    ret->size = len;
+
+    memcpy(ret->buffer,arr,sizeof(int)*ret->size);
+
+    for(int i=hp_parent(ret->size-1); i>=0; --i){
+        hp_maxHeapSiftDown(ret,i);
+    }
+
+    return ret;
+}
+
+myHeap_p hp_minHeapify(int* arr, int len){
+
+    assert(arr);
+
+    myHeap_p ret = hp_createHeap();
+
+    if(len > ret->capacity){
+        int size = (len/ret->capacity+1)*MAX_HEAP_SIZE;
+        hp_resize(ret,size);
+    }
+
+    ret->size = len;
+
+    memcpy(ret->buffer,arr,sizeof(int)*ret->size);
+
+    for(int i=hp_parent(ret->size-1); i>=0; --i){
+        hp_minHeapSiftDown(ret,i);
+    }
 
     return ret;
 }
@@ -104,14 +158,14 @@ void hp_heapPrinter(myHeap_p heap){
 
     int size = hp_heapGetSize(heap);
 
-    printf("[");
+    printf("top --> [");
     for(int i=0; i<size; ++i){
         printf("%d", heap->buffer[i]);
         if(i != size-1){
             printf(", ");
         }
     }
-    printf("]\n");
+    printf("] [size: %d, capacity: %d]\n", size, heap->capacity);
 }
 
 void hp_insertMaxHeap(myHeap_p heap, int value){
@@ -120,6 +174,10 @@ void hp_insertMaxHeap(myHeap_p heap, int value){
     assert(heap->buffer);
 
     int size = hp_heapGetSize(heap);
+
+    if(size >= heap->capacity){
+        hp_resize(heap,heap->capacity<<1);
+    }
 
     heap->buffer[size] = value;
     hp_maxHeapSiftUp(heap,size);
@@ -132,6 +190,10 @@ void hp_insertMinHeap(myHeap_p heap, int value){
     assert(heap->buffer);
 
     int size = hp_heapGetSize(heap);
+
+    if(size >= heap->capacity){
+        hp_resize(heap,heap->capacity<<1);
+    }
 
     heap->buffer[size] = value;
     hp_minHeapSiftUp(heap,size);
@@ -174,7 +236,12 @@ int hp_extractMaxHeap(myHeap_p heap){
         return -1;
     }
 
+    int size = hp_heapGetSize(heap);
     int ret = hp_findMax(heap);
+
+    if(size >= MAX_HEAP_SIZE && size == heap->capacity>>1){
+        hp_resize(heap,heap->capacity>>1);
+    }
 
     hp_swap(heap->buffer,0,heap->size-1);
     --(heap->size);
@@ -194,6 +261,11 @@ int hp_extractMinHeap(myHeap_p heap){
     }
 
     int ret = hp_findMin(heap);
+    int size = hp_heapGetSize(heap);
+
+    if(size >= MAX_HEAP_SIZE && size == heap->capacity>>1){
+        hp_resize(heap,heap->capacity>>1);
+    }
 
     hp_swap(heap->buffer,0,heap->size-1);
     --(heap->size);
@@ -222,6 +294,63 @@ int hp_replaceMinHeap(myHeap_p heap, int value){
     hp_minHeapSiftDown(heap,0);
 
     return ret;
+}
+
+static void hp_siftDown(int* arr, int index, int len){
+
+    assert(arr);
+
+    while(hp_leftChild(index) < len){
+
+        int target = hp_leftChild(index);
+
+        if(target + 1 < len && 
+           arr[target+1] > arr[target]){
+            ++target;
+        }
+        
+        if(arr[index] >= arr[target]){
+            break;
+        }
+
+        hp_swap(arr,index,target);
+        index = target;
+    } 
+}
+
+void hp_heapSort1(int* arr, int len){
+
+    assert(arr);
+
+    if(len <= 1){
+        return;
+    }
+
+    for(int i=(len-2)/2 ; i>=0 ; --i) {
+        hp_siftDown(arr, i, len);
+    }
+
+    for(int i=len-1; i>=0; --i){
+        hp_swap(arr, 0, i);
+        hp_siftDown(arr, 0, i);
+    }    
+}
+
+void hp_heapSort2(int* arr, int len){
+
+    assert(arr);
+
+    if(len <= 1){
+        return;
+    }
+
+    myHeap_p heap = hp_minHeapify(arr,len);
+
+    for(int i=0; i<len; ++i){
+        arr[i] = hp_extractMinHeap(heap);
+    }
+
+    hp_freeHeap(&heap);
 }
 
 int hp_heapGetSize(myHeap_p heap){

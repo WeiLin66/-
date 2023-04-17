@@ -1,17 +1,15 @@
-#include "heap.h"
+#include "priorityqueue.h"
 
 int main(){
 
-    CREATE_HEAP(heap);
-    for(int i=0; i<10; ++i){
-        MINHEAP_INSERT(heap,i+1);
+    CREATE_PQ(priorityQueue);
+    for(int i=0; i<100; ++i){
+        PQ_ENQUEUE(priorityQueue,i+1);
     }
-    HEAP_PRINTER(heap);
-    for(int i=0; i<10; ++i){
-        printf("%d\n", MINHEAP_REMOVE(heap));
-        HEAP_PRINTER(heap);
+    PQ_PRINTER(priorityQueue);
+    for(int i=0; i<100; ++i){
+        printf("%d\n",PQ_DEQUEUE(priorityQueue));
     }
-    FREE_HEAP(heap);
-
+    
     return 0;
 }

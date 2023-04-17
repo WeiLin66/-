@@ -5,6 +5,11 @@ public class MaxHeap<T extends Comparable<T>> {
         data = new Array<>(capacity);
     }
 
+    /**
+     * heapify功能
+     *
+     * @param arr
+     */
     public MaxHeap(T[] arr) {
         data = new Array<>(arr);
         for (int i = parent(arr.length - 1); i >= 0; i--) {
@@ -31,7 +36,7 @@ public class MaxHeap<T extends Comparable<T>> {
      */
     public void add(T value) {
         data.addLast(value);
-        siftUP(data.getSize() - 1);
+        siftUp(data.getSize() - 1);
     }
 
     /**
@@ -58,7 +63,7 @@ public class MaxHeap<T extends Comparable<T>> {
     }
 
     /**
-     * 取出最大值，並替會成元素value
+     * 取出最大值，並替換成元素value
      *
      * @param value
      * @return
@@ -109,7 +114,7 @@ public class MaxHeap<T extends Comparable<T>> {
      *
      * @param index
      */
-    private void siftUP(int index) {
+    private void siftUp(int index) {
         while (index > 0 && data.get(index).compareTo(data.get(parent(index))) > 0) {
             data.swap(index, parent(index));
             index = parent(index);

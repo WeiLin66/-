@@ -2,18 +2,12 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        int n = 15;
-        Integer[] ret = new Integer[n];
-        Random rnd = new Random();
 
-        for (int i = 0; i < n; i++) {
-            ret[i] = rnd.nextInt(n);
+        MaxHeap<Integer> maxheap = new MaxHeap<>();
+        for(int i=0; i<10; ++i) {
+            maxheap.add(i);
         }
 
-        HeapSort.sort(ret);
-
-        for(int i : ret){
-            System.out.print(i + " ");
-        }
+        System.out.println(maxheap.findMax());
     }
 }

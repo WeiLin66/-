@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include "heap.h"
 
 #define SWAP(a,b)                                   do{                 \
                                                         int tmp=a;      \
@@ -14,7 +15,7 @@
                                                     }while(0)
 
 #define MAX_LEN                                     (10000000)
-#define MAX_RANGE                                   (1000)
+#define MAX_RANGE                                   (100000000)
 #define CREATE_ARRAY(name)                          int name[MAX_LEN]={0}
 #define GENERATE_ARRAY(name)                        srand((unsigned int)time(NULL)); arrayGenerator1(name,MAX_LEN,MAX_RANGE)                         
 
