@@ -346,22 +346,6 @@ bool bt_isBST1(treeNode_p node){
     return true;
 }
 
-bool bt_isBST2(treeNode_p node){
-
-    if(node == NULL){
-        return true;
-    }
-
-    int leftValue = bt_maxValueR(node->left);
-    int rightValue = bt_minValueR(node->right);
-
-    if(node->data >= leftValue && node->data < rightValue){
-        return true;
-    }
-
-    return false;
-}
-
 static bool bt_isBSTHelper2(treeNode_p node, int max, int min){
 
     if(node == NULL){
@@ -375,7 +359,7 @@ static bool bt_isBSTHelper2(treeNode_p node, int max, int min){
     return bt_isBSTHelper2(node->left,node->data,min) && bt_isBSTHelper2(node->right,max,node->data);
 }
 
-bool bt_isBST3(treeNode_p node){
+bool bt_isBST2(treeNode_p node){
 
     return bt_isBSTHelper2(node,INT_MAX,INT_MIN);
 }

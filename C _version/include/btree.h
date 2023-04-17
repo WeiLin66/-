@@ -14,7 +14,7 @@
 #define TREE_MIN_VALUE(node)                    bt_minValueR(node)
 #define TREE_MAX_VALUE(node)                    bt_maxValueR(node)
 #define TREE_TRAVERSAL(node)                    bt_levelOrder(node); printf("\n")
-#define TREE_ISBST(node)                        bt_isBST3(node)
+#define TREE_ISBST(node)                        bt_isBST2(node)
 
 typedef struct treeNode{
     int data;
@@ -43,6 +43,5 @@ bool bt_sameTree(treeNode_p node1, treeNode_p node2);
 int countTree(int numsKey);
 bool bt_isBST1(treeNode_p node);
 bool bt_isBST2(treeNode_p node);
-bool bt_isBST3(treeNode_p node);
 
 #endif /* __BTREE_H_ */
