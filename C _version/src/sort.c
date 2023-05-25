@@ -55,14 +55,9 @@ void sortingCheck(char* name, int* arr, int len){
 
 void insertSort1(int* arr, int len){
 
-    int i,j;
-
-    for(i=1; i<len; ++i){
-        int find=arr[i];
-        for(j=i; j-1>=0; --j){
-            if(arr[j-1] <= find){
-                break;
-            }
+    for(int i=1; i<len; ++i){
+        int find=arr[i], j;
+        for(j=i; j>0 && arr[j-1] > find; --j){
             arr[j] = arr[j-1];
         }
         arr[j] = find;
