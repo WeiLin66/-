@@ -289,7 +289,7 @@ static void merge1(int* arr, int left, int right){
         }else if(r > right){
             arr[i] = temp[l-left];
             l++;
-        }else if(temp[l-left] < temp[r-left]){
+        }else if(temp[l-left] <= temp[r-left]){
             arr[i] = temp[l-left];
             l++;
         }else{
@@ -313,7 +313,7 @@ static void merge2(int* arr, int* temp, int left, int right){
         }else if(r > right){
             arr[i] = temp[l-left];
             l++;
-        }else if(temp[l-left] < temp[r-left]){
+        }else if(temp[l-left] <= temp[r-left]){
             arr[i] = temp[l-left];
             l++;
         }else{
