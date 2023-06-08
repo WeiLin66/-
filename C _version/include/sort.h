@@ -19,7 +19,7 @@
 #define CREATE_ARRAY(name)                          int name[MAX_LEN]={0}
 #define GENERATE_ARRAY(name)                        srand((unsigned int)time(NULL)); arrayGenerator1(name,MAX_LEN,MAX_RANGE)                         
 
-#define COPY_ARRAY(src,name)                        memcpy(name,src,MAX_LEN*sizeof(int))
+#define COPY_ARRAY(name,src)                        memcpy(name,src,MAX_LEN*sizeof(int))
 #define SORTING_PRINTER(arg,name)                   //printf("[%s]: ",#arg); arrayPrinter(name,MAX_LEN)
 #define SORTING_CHECKER(name,arr)                   sortingCheck(name,arr,MAX_LEN)
 #define SORTING_TEST(sort,name)                     do{                                                             \

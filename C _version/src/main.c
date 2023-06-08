@@ -1,20 +1,15 @@
-#include "btree.h"
+#include "sort.h"
+
+CREATE_ARRAY(arr);
+CREATE_ARRAY(arr2);
 
 int main(){
 
-    CREATE_TREE(n1,NULL,NULL,7);
-    CREATE_TREE(n2,NULL,NULL,5);
-    CREATE_TREE(n3,NULL,NULL,10);
-    CREATE_TREE(n4,NULL,NULL,4);
-    CREATE_TREE(n5,NULL,NULL,8);
+    GENERATE_ARRAY(arr);
+    COPY_ARRAY(arr2,arr);
 
-    n1->left = n2;
-    n1->right = n3;
-
-    n2->left = n4;
-    n2->right = n5;
-
-    printf("%d\n",TREE_ISBST(n1));
+    SORTING_TEST(shellSort4,arr);
+    SORTING_TEST(hp_heapSort2,arr2);
 
     return 0;
 }
