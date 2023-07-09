@@ -55,9 +55,14 @@ void sortingCheck(char* name, int* arr, int len){
 
 void insertSort1(int* arr, int len){
 
-    for(int i=1; i<len; ++i){
-        int find=arr[i], j;
-        for(j=i; j>0 && arr[j-1] > find; --j){
+    int i,j;
+
+    for(i=1; i<len; ++i){
+        int find=arr[i];
+        for(j=i; j-1>=0; --j){
+            if(arr[j-1] <= find){
+                break;
+            }
             arr[j] = arr[j-1];
         }
         arr[j] = find;
@@ -289,7 +294,7 @@ static void merge1(int* arr, int left, int right){
         }else if(r > right){
             arr[i] = temp[l-left];
             l++;
-        }else if(temp[l-left] <= temp[r-left]){
+        }else if(temp[l-left] < temp[r-left]){
             arr[i] = temp[l-left];
             l++;
         }else{
@@ -313,7 +318,7 @@ static void merge2(int* arr, int* temp, int left, int right){
         }else if(r > right){
             arr[i] = temp[l-left];
             l++;
-        }else if(temp[l-left] <= temp[r-left]){
+        }else if(temp[l-left] < temp[r-left]){
             arr[i] = temp[l-left];
             l++;
         }else{

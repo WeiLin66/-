@@ -435,20 +435,24 @@ void mll_frontBackSplit3(myNode* source, myNode** frontRef, myNode** backRef){
         return;
     }
 
-    myNode dummy = {0,source};
-    myNode* fast = &dummy, *slow = &dummy;
-    
-    while(fast && fast->next){
-        slow = slow->next;
-        fast = fast->next;
-        if(fast){
-           fast = fast->next;
-        }
-    }
+    int len = length(source);
 
-    *frontRef = dummy.next;
-    *backRef = slow->next;
-    slow->next = NULL;
+    if(len < 2){
+        *frontRef = source;
+        *backRef = NULL;
+    }else{
+        myNode* fast=source->next, *slow=source;
+        *frontRef = source;
+        while(fast){
+            fast = fast->next;
+            if(fast){
+               fast = fast->next;
+               slow = slow->next;
+            }
+        }
+        *backRef = slow->next;
+        slow->next = NULL;
+    }
 }
 
 void mll_RemoveDuplicates(myNode* node){

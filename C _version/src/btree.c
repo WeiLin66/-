@@ -145,8 +145,8 @@ void bt_preOrder(treeNode_p node){
         return;
     }
 
-    printf("%d ", node->data);
     bt_preOrder(node->left);
+    printf("%d ", node->data);
     bt_preOrder(node->right);
 }
 
@@ -156,8 +156,8 @@ void bt_inOrder(treeNode_p node){
         return;
     }
 
+    printf("%d ", node->data);
     bt_inOrder(node->left);
-    printf("%d ", node->data);    
     bt_inOrder(node->right);
 }
 
