@@ -443,14 +443,10 @@ static int partition1(int* arr, int left, int right){
     for(int j=i+1; j<=right; ++j){
         if(arr[j] <= p){
             i++;
-            if(i != j && arr[i] != arr[j]){
-                SWAP(arr[i],arr[j]);
-            }
+            SWAP(arr[i],arr[j]);
         }
     }
-    if(i != left && arr[i] != arr[left]){
-        SWAP(arr[i],arr[left]);
-    }
+    SWAP(arr[i],arr[left]);
 
     return i;
 }
@@ -463,14 +459,10 @@ static int partition2(int* arr, int left, int right){
     for(int j=i+1; j<=right; ++j){
         if(arr[j] <= p){
             i++;
-            if(i != j && arr[i] != arr[j]){
-                SWAP(arr[i],arr[j]);
-            }
+            SWAP(arr[i],arr[j]);
         }
     }
-    if(i != left && arr[i] != arr[left]){
-        SWAP(arr[i],arr[left]);
-    }
+    SWAP(arr[i],arr[left]);
 
     return i;
 }
@@ -484,14 +476,10 @@ static int partition3(int* arr, int left, int right){
     for(int j=i+1; j<=right; ++j){
         if(arr[j] <= arr[left]){
             i++;
-            if(i != j && arr[i] != arr[j]){
-                SWAP(arr[i],arr[j]);
-            }
+            SWAP(arr[i],arr[j]);
         }
     }
-    if(i != left && arr[i] != arr[left]){
-        SWAP(arr[i],arr[left]);
-    }
+    SWAP(arr[i],arr[left]);
 
     return i;   
 }
@@ -662,9 +650,7 @@ static void quicksort7(int* arr, int left, int right){
 
         if(arr[i] < arr[left]){
             lt++;
-            if(lt != i){
-                SWAP(arr[lt],arr[i]);
-            }
+            SWAP(arr[lt],arr[i]);
             ++i;
         }else if(arr[i] == arr[left]){
             ++i;
