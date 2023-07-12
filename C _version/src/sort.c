@@ -679,6 +679,39 @@ static void quicksort7(int* arr, int left, int right){
     quicksort7(arr,gt,right);
 }
 
+static void quicksort8(int* arr, int left, int right){
+
+    if(left >= right){
+        return;
+    }
+
+    if(right - left + 1 <= 16){
+        insertMergeOp(arr,left,right);
+        return;        
+    }
+
+    range stack[QSORT_STACK_SIZE] = {0};
+    int top = -1;
+    stack[++top].left = left;
+    stack[top].right = right;
+
+    while(top >= 0){
+        int l = stack[top].left;
+        int r = stack[top].right;
+        int p = partition5(arr,l,r);
+        --top;
+        
+        if(p - 1 > l){
+            stack[++top].left = l;
+            stack[top].right = p - 1;
+        }
+        if(p + 1 < r){
+            stack[++top].left = p + 1;
+            stack[top].right = r;
+        }
+    }
+}
+
 void quickSort1(int* arr, int len){
 
     quicksort1(arr,0,len-1);
@@ -712,4 +745,9 @@ void quickSort6(int* arr, int len){
 void quickSort7(int* arr, int len){
 
     quicksort7(arr,0,len-1);
+}
+
+void quickSort8(int* arr, int len){
+
+    quicksort8(arr,0,len-1);
 }

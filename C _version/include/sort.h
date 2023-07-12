@@ -16,10 +16,11 @@
 
 #define MAX_LEN                                     (10000000)
 #define MAX_RANGE                                   (100000000)
+#define QSORT_STACK_SIZE                            (100)
 #define CREATE_ARRAY(name)                          int name[MAX_LEN]={0}
 #define GENERATE_ARRAY(name)                        srand((unsigned int)time(NULL)); arrayGenerator1(name,MAX_LEN,MAX_RANGE)                         
 
-#define COPY_ARRAY(src,name)                        memcpy(name,src,MAX_LEN*sizeof(int))
+#define COPY_ARRAY(name,src)                        memcpy(name,src,MAX_LEN*sizeof(int))
 #define SORTING_PRINTER(arg,name)                   //printf("[%s]: ",#arg); arrayPrinter(name,MAX_LEN)
 #define SORTING_CHECKER(name,arr)                   sortingCheck(name,arr,MAX_LEN)
 #define SORTING_TEST(sort,name)                     do{                                                             \
@@ -33,6 +34,11 @@
                                                         printf("[%s] [%d elements] Time Consumes: %lf sec\n",       \
                                                                 #sort,MAX_LEN,(end-start)/(double)CLOCKS_PER_SEC);  \
                                                     }while(0)
+
+typedef struct range{
+    int left;
+    int right;
+}range;
 
 void arrayGenerator1(int* arr, int len, int range);
 void arrayGenerator2(int* arr, int len, int range);
@@ -67,5 +73,6 @@ void quickSort4(int* arr, int len);
 void quickSort5(int* arr, int len);
 void quickSort6(int* arr, int len);
 void quickSort7(int* arr, int len);
+void quickSort8(int* arr, int len);
 
 #endif /* __SORT_H_ */

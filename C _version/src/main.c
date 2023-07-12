@@ -1,12 +1,14 @@
-#include "avltree.h"
+#include "sort.h"
+
+CREATE_ARRAY(arr);
+CREATE_ARRAY(arr2);
 
 int main(){
 
-    AVLTree* tree = avl_createTree();
-    for(int i=0; i<10; ++i){
-        avl_insert(tree,i);
-    }
-    printf("is balanced: %d, is binary tree: %d\n",avl_isBalanced(tree),avl_isBST(tree));
+    GENERATE_ARRAY(arr);
+    COPY_ARRAY(arr2,arr);
+    SORTING_TEST(quickSort8,arr);
+    SORTING_TEST(quickSort7,arr2);
 
     return 0;
 }
