@@ -1,14 +1,17 @@
-#include "sort.h"
-
-CREATE_ARRAY(arr);
-CREATE_ARRAY(arr2);
+#include "queue.h"
 
 int main(){
 
-    GENERATE_ARRAY(arr);
-    COPY_ARRAY(arr2,arr);
-    SORTING_TEST(quickSort8,arr);
-    SORTING_TEST(quickSort7,arr2);
+    CREATE_QUEUE(queue);
+
+    for(int i=0; i<10; ++i){
+        ENQUEUE(queue,i+1);
+        QUEUE_PRINTER(queue);
+    }
+    for(int i=0; i<10; ++i){
+        DEQUEUE(queue);
+        QUEUE_PRINTER(queue);
+    }
 
     return 0;
 }
