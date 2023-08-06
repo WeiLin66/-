@@ -40,6 +40,61 @@ treeNode_p bt_insert(treeNode_p node, int value){
     return node;
 }
 
+static treeNode_p min(treeNode_p node){
+
+    while(node->left){
+        node = node->left;
+    }
+    return node;
+}
+
+static treeNode_p removeMin(treeNode_p node){
+
+    if(node->left == NULL){
+        treeNode_p rightNode = node->right;
+        node->right = NULL; // 斷開節點與它的右子樹的連接
+        return rightNode;
+    }
+    node->left = removeMin(node->left);
+    return node;
+}
+
+treeNode_p bt_remove(treeNode_p node, int target){
+
+    if(node == NULL){
+        return NULL;
+    }
+
+    if(target > node->value){
+        node->right = bt_remove(node->right, target);
+    }else if(target < node->value){
+        node->left = bt_remove(node->left, target);
+    }else{ // node->value == target
+        if(node->left == NULL){ // 只有右子樹
+            treeNode_p ret = node->right;
+            node->right = NULL;
+            free(node);
+            return ret;
+        }else if(node->right == NULL){ // 只有左子樹
+            treeNode_p ret = node->left;
+            node->left = NULL;
+            free(node);
+            return ret;
+        }
+        /* 同時擁有左右子樹 */
+        treeNode_p successor = min(node->right);
+        successor->right = removeMin(node->right);
+        successor->left = node->left;
+
+        node->left = node->right = NULL;
+        free(node);
+
+        return successor;
+    }
+
+    return node;
+}
+
 int bt_size(treeNode_p node){
 
     if(node == NULL){

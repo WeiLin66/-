@@ -9,6 +9,7 @@
 
 #define CREATE_TREE(name,left,right,value)      treeNode_p name=bt_createTree(left,right,value)
 #define TREE_INSERT(node,value)                 bt_insert(node,value)
+#define TREE_REMOVE(node,value)                 bt_remove(node,value)
 #define TREE_SIZE(node)                         bt_size(node)
 #define TREE_DEPTH(node)                        bt_maxDepth(node)
 #define TREE_MIN_VALUE(node)                    bt_minValueR(node)
@@ -25,6 +26,7 @@ typedef treeNode* treeNode_p;
 
 treeNode_p bt_createTree(treeNode_p left, treeNode_p right, int data);
 treeNode_p bt_insert(treeNode_p node, int value);
+treeNode_p bt_remove(treeNode_p node, int target);
 int bt_size(treeNode_p node);
 int bt_maxDepth(treeNode_p node);
 int bt_minValue(treeNode_p node);
